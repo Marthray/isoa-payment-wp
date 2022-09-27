@@ -55,7 +55,7 @@
     //registe input
     register_setting(
         'isoa_payment_settings_page',
-        'isoa_payment_settings_input_field',
+        'isoa_payment_settings_name',
         array(
             'type' => 'string',
             'sanitize_callback' => 'sanitize_text_field',
@@ -65,9 +65,9 @@
 
     //add settings fields
     add_settings_field(
-        'isoa_payment_settings_input_field',
-        'Input Field',
-        'isoa_payment_settings_input_field_callback',
+        'isoa_payment_settings_name',
+        'Nombre',
+        'isoa_payment_settings_name_callback',
         'isoa_payment_settings_page',
         'isoa_payment_settings_section'
     );
@@ -75,7 +75,7 @@
     //registe input
     register_setting(
         'isoa_payment_settings_page',
-        'isoa_payment_settings_input_field2',
+        'isoa_payment_settings_description',
         array(
             'type' => 'string',
             'sanitize_callback' => 'sanitize_text_field',
@@ -85,32 +85,95 @@
 
     //add settings fields
     add_settings_field(
-        'isoa_payment_settings_input_field2',
-        'Input Field 2',
-        'isoa_payment_settings_input_field2_callback',
+        'isoa_payment_settings_description',
+        'Descripcion',
+        'isoa_payment_settings_description_callback',
         'isoa_payment_settings_page',
         'isoa_payment_settings_section'
     );
+
+    //registe input
+    register_setting(
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_email',
+        array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => ''
+        )
+    );
+
+    //add settings fields
+    add_settings_field(
+        'isoa_payment_settings_email',
+        'Email',
+        'isoa_payment_settings_email_callback',
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_section'
+    );
+
+    //registe input
+    register_setting(
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_terceroId',
+        array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => ''
+        )
+    );
+
+    //add settings fields
+    add_settings_field(
+        'isoa_payment_settings_terceroId',
+        'Tercero ID',
+        'isoa_payment_settings_terceroId_callback',
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_section'
+    );
+
   }
 
   add_action('admin_init', 'isoa_payment_settings_init');
 
-  function isoa_payment_settings_input_field_callback() {
-    $isoa_payment_input_field = get_option('isoa_payment_settings_input_field');
+  function isoa_payment_settings_description_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_description');
     ?>
 
-    <input type="text" name="isoa_payment_settings_input_field" class="regular-text" value="<?php 
+    <input type="text" name="isoa_payment_settings_description" class="regular-text" value="<?php 
         echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
     ?>">
 
     <?php
   }
 
-  function isoa_payment_settings_input_field2_callback() {
-    $isoa_payment_input_field = get_option('isoa_payment_settings_input_field2');
+  function isoa_payment_settings_terceroId_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_terceroId');
     ?>
 
-    <input type="text" name="isoa_payment_settings_input_field2" class="regular-text" value="<?php 
+    <input type="text" name="isoa_payment_settings_terceroId" class="regular-text" value="<?php 
+        echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
+    ?>">
+
+    <?php
+  }
+
+  function isoa_payment_settings_name_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_name');
+    ?>
+
+    <input type="text" name="isoa_payment_settings_name" class="regular-text" value="<?php 
+        echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
+    ?>">
+
+    <?php
+  }
+
+  function isoa_payment_settings_email_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_email');
+    ?>
+
+    <input type="text" name="isoa_payment_settings_email" class="regular-text" value="<?php 
         echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
     ?>">
 
