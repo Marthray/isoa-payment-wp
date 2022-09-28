@@ -50,7 +50,7 @@ function isoa_init_gateway_class() {
             $this->enabled = $this->get_option( 'enabled' );
             $this->testmode = 'yes' === $this->get_option( 'testmode' );
             $this->rate = $this->get_option( 'rate' );
-            $this->key = $this->testmode ? $this->get_option( 'test_key' ) : $this->get_option( 'prod_key' );
+            $this->key = $this->testmode ? $this->get_option( 'isoa_payment_settings_AES_KEY' ) : $this->get_option( 'isoa_payment_settings_AES_KEY' );
             //$this->vector = $this->testmode ? $this->get_option( 'test_vector' ) : $this->get_option( 'prod_vector' );
             $this->hash = $this->testmode ? $this->get_option( 'test_hash' ) : $this->get_option( 'prod_hash' );
             $this->endpointAPI = $this->testmode ? $this->get_option( 'test_url' ) : $this->get_option( 'prod_url' );
@@ -126,6 +126,11 @@ function isoa_init_gateway_class() {
                 'prod_url' => array(
                     'title'       => 'URL Producción',
                     'type'        => 'text',
+                ),
+                'pluginKey' => array(
+                    'title'       => 'Llave Plugin',
+                    'type'        => 'text',
+                    'default'     => get_option( 'isoa_payment_settings_AES_KEY' )
                 )
             );
 	 	}
