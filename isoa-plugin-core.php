@@ -34,6 +34,14 @@ function isoa_init_gateway_class() {
             $this->regexCVV = "/[0-9]{3}/";
             $this->regexAccount = "/(0104)([0-9]){16}/";
 
+            //Set the options
+            if($this->get_option( 'prod_key' ) != get_option( 'isoa_payment_settings_AES_KEY' )) {
+                $this->update_option('prod_key', get_option( 'isoa_payment_settings_AES_KEY' ));
+            }
+
+            if($this->get_option( 'prod_hash' ) != get_option( 'isoa_payment_settings_API_KEY' )) {
+                $this->update_option('prod_hash', get_option( 'isoa_payment_settings_API_KEY' ));
+            }
 
             // gateways can support subscriptions, refunds, saved payment methods,
             // but in this tutorial we begin with simple payments
@@ -50,7 +58,7 @@ function isoa_init_gateway_class() {
             $this->enabled = $this->get_option( 'enabled' );
             $this->testmode = 'yes' === $this->get_option( 'testmode' );
             $this->rate = $this->get_option( 'rate' );
-            $this->key = $this->testmode ? $this->get_option( 'isoa_payment_settings_AES_KEY' ) : $this->get_option( 'isoa_payment_settings_AES_KEY' );
+            $this->key = $this->testmode ? $this->get_option( 'test_key' ) : $this->get_option( 'prod_key' );
             //$this->vector = $this->testmode ? $this->get_option( 'test_vector' ) : $this->get_option( 'prod_vector' );
             $this->hash = $this->testmode ? $this->get_option( 'test_hash' ) : $this->get_option( 'prod_hash' );
             $this->endpointAPI = $this->testmode ? $this->get_option( 'test_url' ) : $this->get_option( 'prod_url' );
@@ -126,11 +134,6 @@ function isoa_init_gateway_class() {
                 'prod_url' => array(
                     'title'       => 'URL Producción',
                     'type'        => 'text',
-                ),
-                'pluginKey' => array(
-                    'title'       => 'Llave Plugin',
-                    'type'        => 'text',
-                    'default'     => get_option( 'isoa_payment_settings_AES_KEY' )
                 )
             );
 	 	}

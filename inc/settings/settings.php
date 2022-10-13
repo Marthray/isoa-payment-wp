@@ -66,8 +66,68 @@
     //add settings fields
     add_settings_field(
         'isoa_payment_settings_name',
-        'Nombre',
+        'Nombre Empresa',
         'isoa_payment_settings_name_callback',
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_section'
+    );
+
+    //registe input
+    register_setting(
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_firstName',
+        array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => ''
+        )
+    );
+
+    //add settings fields
+    add_settings_field(
+        'isoa_payment_settings_firstName',
+        'Nombre Solicitante',
+        'isoa_payment_settings_firstName_callback',
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_section'
+    );
+
+    //registe input
+    register_setting(
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_lastName',
+        array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => ''
+        )
+    );
+
+    //add settings fields
+    add_settings_field(
+        'isoa_payment_settings_lastName',
+        'Apellido Solicitante',
+        'isoa_payment_settings_lastName_callback',
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_section'
+    );
+
+    //registe input
+    register_setting(
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_userid',
+        array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => ''
+        )
+    );
+
+    //add settings fields
+    add_settings_field(
+        'isoa_payment_settings_userid',
+        'Nombre de Usuario',
+        'isoa_payment_settings_userid_callback',
         'isoa_payment_settings_page',
         'isoa_payment_settings_section'
     );
@@ -135,6 +195,46 @@
     //registe input
     register_setting(
         'isoa_payment_settings_page',
+        'isoa_payment_settings_phone',
+        array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => ''
+        )
+    );
+
+    //add settings fields
+    add_settings_field(
+        'isoa_payment_settings_phone',
+        'Telefono',
+        'isoa_payment_settings_phone_callback',
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_section'
+    );
+
+    //registe input
+    register_setting(
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_password',
+        array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => ''
+        )
+    );
+
+    //add settings fields
+    add_settings_field(
+        'isoa_payment_settings_password',
+        'Contraseña',
+        'isoa_payment_settings_password_callback',
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_section'
+    );
+
+    //registe input
+    register_setting(
+        'isoa_payment_settings_page',
         'isoa_payment_settings_send',
         array(
             'type' => 'boolean',
@@ -191,7 +291,7 @@
     //add settings fields
     add_settings_field(
         'isoa_payment_settings_AES_KEY',
-        'API KEY',
+        'Private Key',
         'isoa_payment_settings_AES_KEY_callback',
         'isoa_payment_settings_page',
         'isoa_payment_settings_section'
@@ -205,7 +305,7 @@
     $isoa_payment_input_field = get_option('isoa_payment_settings_description');
     ?>
 
-    <input type="text" name="isoa_payment_settings_description" class="regular-text" value="<?php 
+    <input type="text" name="isoa_payment_settings_description" id="description" class="regular-text" value="<?php 
         echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
     ?>">
 
@@ -216,7 +316,7 @@
     $isoa_payment_input_field = get_option('isoa_payment_settings_terceroId');
     ?>
 
-    <input type="text" name="isoa_payment_settings_terceroId" class="regular-text" value="<?php 
+    <input type="text" name="isoa_payment_settings_terceroId" id="terceroId" class="regular-text" value="<?php 
         echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
     ?>">
 
@@ -227,7 +327,18 @@
     $isoa_payment_input_field = get_option('isoa_payment_settings_name');
     ?>
 
-    <input type="text" name="isoa_payment_settings_name" class="regular-text" value="<?php 
+    <input type="text" name="isoa_payment_settings_name" id="name" class="regular-text" value="<?php 
+        echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
+    ?>">
+
+    <?php
+  }
+
+  function isoa_payment_settings_phone_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_phone');
+    ?>
+
+    <input type="text" name="isoa_payment_settings_phone" id="phone" class="regular-text" value="<?php 
         echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
     ?>">
 
@@ -238,7 +349,51 @@
     $isoa_payment_input_field = get_option('isoa_payment_settings_email');
     ?>
 
-    <input type="text" name="isoa_payment_settings_email" class="regular-text" value="<?php 
+    <input type="text" name="isoa_payment_settings_email" id="email" class="regular-text" value="<?php 
+        echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
+    ?>">
+
+    <?php
+  }
+
+  function isoa_payment_settings_userid_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_userid');
+    ?>
+
+    <input type="text" name="isoa_payment_settings_userid" id="userid" class="regular-text" value="<?php 
+        echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
+    ?>">
+
+    <?php
+  }
+
+  function isoa_payment_settings_password_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_password');
+    ?>
+
+    <input type="password" name="isoa_payment_settings_password" id="password" class="regular-text" value="<?php 
+        echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
+    ?>">
+
+    <?php
+  }
+
+  function isoa_payment_settings_firstName_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_firstName');
+    ?>
+
+    <input type="text" name="isoa_payment_settings_firstName" id="firstName" class="regular-text" value="<?php 
+        echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
+    ?>">
+
+    <?php
+  }
+
+  function isoa_payment_settings_lastName_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_lastName');
+    ?>
+
+    <input type="text" name="isoa_payment_settings_lastName" id="lastName" class="regular-text" value="<?php 
         echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : '';
     ?>">
 
@@ -253,9 +408,60 @@
     <script>
         function sendToRamon() {
             console.log('SE ENVIO LA BROMA');
+            
+            if(jQuery('#name').val() == '' || jQuery('#email').val() == '' || jQuery('#phone').val() == '' ||
+                jQuery('#terceroId').val() == '' || jQuery('#description').val() == '' || jQuery('#userid').val() == '') {
+                    alert('Datos faltantes, verificar');
+                    return false;
+                }
+
+            let json = {
+                "business": {
+                    "name": jQuery('#name').val(),
+                    "description": jQuery('#description').val(),
+                    "email": jQuery('#email').val(),
+                    "phone": jQuery('#phone').val(),
+                    "terceroId": jQuery('#terceroId').val(),
+                    "slogan": '',
+                    "categoriaComercio": '',
+                    "userid": jQuery('#userid').val(),
+                    "pais": '',
+                    "ciudad": '',
+                    "address": {}
+                },
+                "user": {
+                    "name": jQuery('#firstName').val(),
+                    "lastName": jQuery('#lastName').val(),
+                    "userid": jQuery('#userid').val(),
+                    "password": jQuery('#password').val(),
+                    "email": jQuery('#email').val()
+                }
+            }
+
+            console.log(JSON.stringify(json))
+
+            jQuery.ajax({
+                url: 'https://api.tuspagos.net:8443/api/business/new_wp',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(json),
+                cache: false,
+                success: function(data) {
+                    console.log(data)
+                    jQuery('#api').val(data.API_KEY)
+                    jQuery('#aes').val(data.PRIVATE_KEY)
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    console.log(xhr);
+                    console.log(thrownError);
+                    if(xhr.responseText != null) {
+                        alert(xhr.responseText)
+                    }
+                }
+            })
+
             //document.getElementById('api').value="abc123"
-            jQuery('#api').val("abc123")
-            jQuery('#aes').val("def456")
         }
     </script>
 
