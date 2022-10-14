@@ -484,6 +484,7 @@ function c2p_init_gateway_isoa() {
                   'method'      => 'POST',
                   'data_format' => 'body'
             );
+            
 
             //TODO: CAMBIAR POR OTROS METODOS DE PAGO
             $response = wp_remote_post($this->endpointAPI, $args );
@@ -491,6 +492,7 @@ function c2p_init_gateway_isoa() {
             if( !is_wp_error( $response ) ) {
         
                 $body = json_decode( $response['body'], true );
+                echo $response['body'] . "\n\n";
                 // it could be different depending on your payment processor
                 if ( !is_null($body['response']) ) {
 
@@ -576,6 +578,7 @@ function c2p_init_gateway_isoa() {
                 }
         
             } else {
+                echo ">>>>>>ES ERROR \n\n";
                 wc_add_notice(  'Connection error.', 'error' );
                 return;
             }
