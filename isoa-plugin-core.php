@@ -33,6 +33,7 @@ function isoa_init_gateway_class() {
             $this->regexTDC = "/[0-9]{16}/";
             $this->regexCVV = "/[0-9]{3}/";
             $this->regexAccount = "/(0104)([0-9]){16}/";
+            $this->regexAccount2 = "/([0-9]){20}/";
 
             //Set the options
             if($this->get_option( 'prod_key' ) != get_option( 'isoa_payment_settings_AES_KEY' )) {
