@@ -354,7 +354,9 @@ function c2p_init_gateway_isoa() {
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Código de Banco <span class="required">*</span></label>
-                    <input id="c2p_bank_2" name="c2p_bank_2" type="text" autocomplete="off" placeholder="9999" maxlength="4">
+                    <select id ="c2p_bank_2" name="c2p_bank_2" class="banks">
+                        <option value="">Seleccione</option>
+                    </select>
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Nacionalidad <span class="required">*</span></label>
@@ -408,33 +410,6 @@ function c2p_init_gateway_isoa() {
             }
             return true;
 		}
-
-        public function payment_scripts() {
-            // we need JavaScript to process a token only on cart/checkout pages, right?
-            if ( ! is_cart() && ! is_checkout() && ! isset( $_GET['pay_for_order'] ) ) {
-                return;
-            }
-
-            // if our payment gateway is disabled, we do not have to enqueue JS too
-            if ( 'no' === $this->enabled ) {
-                return;
-            }
-
-            // no reason to enqueue JavaScript if API keys are not set
-            if ( empty( $this->key ) || empty( $this->vector ) || empty( $this->hash ) || empty( $this->rate ) || $this->rate <= 0) {
-                return;
-            }
-
-            // do not work with card detailes without SSL unless your website is in a test mode
-            if ( ! $this->testmode && ! is_ssl() ) {
-                return;
-            }
-
-            // and this is our custom JS in your plugin directory that works with token.js
-            wp_register_style( 'c2pStyle', plugins_url( 'assets/styles.css', __FILE__ ) );
-            wp_enqueue_style( 'c2pStyle' );
-
-	 	}
 
 		/*
 		 * We're processing the payments here, everything about it is in Step 5
@@ -645,7 +620,9 @@ function dbi_init_gateway_isoa() {
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Código de Banco <span class="required">*</span></label>
-                    <input id="dbi_bank" name="dbi_bank" type="text" autocomplete="off" placeholder="9999" maxlength="4">
+                    <select id ="dbi_bank" name="dbi_bank" class="banks">
+                        <option value="">Seleccione</option>
+                    </select>
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Nacionalidad <span class="required">*</span></label>
@@ -701,33 +678,6 @@ function dbi_init_gateway_isoa() {
             }
             return true;
 		}
-
-        public function payment_scripts() {
-            // we need JavaScript to process a token only on cart/checkout pages, right?
-            if ( ! is_cart() && ! is_checkout() && ! isset( $_GET['pay_for_order'] ) ) {
-                return;
-            }
-
-            // if our payment gateway is disabled, we do not have to enqueue JS too
-            if ( 'no' === $this->enabled ) {
-                return;
-            }
-
-            // no reason to enqueue JavaScript if API keys are not set
-            if ( empty( $this->key ) || empty( $this->vector ) || empty( $this->hash ) || empty( $this->rate ) || $this->rate <= 0) {
-                return;
-            }
-
-            // do not work with card detailes without SSL unless your website is in a test mode
-            if ( ! $this->testmode && ! is_ssl() ) {
-                return;
-            }
-
-            // and this is our custom JS in your plugin directory that works with token.js
-            wp_register_style( 'dbiStyle', plugins_url( 'assets/styles.css', __FILE__ ) );
-            wp_enqueue_style( 'dbiStyle' );
-
-	 	}
 
 		/*
 		 * We're processing the payments here, everything about it is in Step 5
