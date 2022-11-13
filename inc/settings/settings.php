@@ -246,7 +246,7 @@
     //add settings fields
     add_settings_field(
         'isoa_payment_settings_send',
-        'Enviar a Ramon',
+        'Generar Credenciales',
         'isoa_payment_settings_send_callback',
         'isoa_payment_settings_page',
         'isoa_payment_settings_section'

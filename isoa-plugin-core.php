@@ -15,6 +15,7 @@ function isoa_init_gateway_class() {
         protected $regexTDC;
         protected $regexCVV;
         protected $regexAccount;
+        protected $banks;
 
  		/**
  		 * Class constructor, more about it in Step 3
@@ -34,6 +35,161 @@ function isoa_init_gateway_class() {
             $this->regexCVV = "/[0-9]{3}/";
             $this->regexAccount = "/(0104)([0-9]){16}/";
             $this->regexAccount2 = "/([0-9]){20}/";
+
+            /** BANKS */
+            $this->banks = array(
+                array(
+                    "codigo"=> "0001",
+                    "nombre"=> "Banco Central de Venezuela",
+                    "rif"=> "G200001100"
+                ),
+                array(
+                    "codigo"=> "0102",
+                    "nombre"=> "Banco de Venezuela S.A.C.A. Banco Universal",
+                    "rif"=> "G200099976"
+                ),
+                array(
+                    "codigo"=> "0104",
+                    "nombre"=> "Venezolano de Crédito, S.A. Banco Universal",
+                    "rif"=> "J000029709"
+                ),
+                array(
+                    "codigo"=> "0105",
+                    "nombre"=> "Banco Mercantil, C.A. Banco Universal",
+                    "rif"=> "J000029610"
+                ),
+                array(
+                    "codigo"=> "0108",
+                    "nombre"=> "Banco Provincial, S.A. Banco Universal",
+                    "rif"=> "J000029679"
+                ),
+                array(
+                    "codigo"=> "0114",
+                    "nombre"=> "Bancaribe C.A. Banco Universal",
+                    "rif"=> "J000029490"
+                ),
+                array(
+                    "codigo"=> "0115",
+                    "nombre"=> "Banco Exterior C.A. Banco Universal",
+                    "rif"=> "J000029504"
+                ),
+                array(
+                    "codigo"=> "0116",
+                    "nombre"=> "Banco Occidental de Descuento, Banco Universal C.A",
+                    "rif"=> "J300619460"
+                ),
+                array(
+                    "codigo"=> "0128",
+                    "nombre"=> "Banco Caroní C.A. Banco Universal",
+                    "rif"=> "J095048551"
+                ),
+                array(
+                    "codigo"=> "0134",
+                    "nombre"=> "Banesco Banco Universal S.A.C.A.",
+                    "rif"=> "J070133805"
+                ),
+                array(
+                    "codigo"=> "0137",
+                    "nombre"=> "Banco Sofitasa, Banco Universal",
+                    "rif"=> "J090283846"
+                ),
+                array(
+                    "codigo"=> "0138",
+                    "nombre"=> "Banco Plaza, Banco Universal",
+                    "rif"=> "J002970553"
+                ),
+                array(
+                    "codigo"=> "0146",
+                    "nombre"=> "Banco de la Gente Emprendedora C.A",
+                    "rif"=> "J301442040"
+                ),
+                array(
+                    "codigo"=> "0151",
+                    "nombre"=> "BFC Banco Fondo Común C.A. Banco Universal",
+                    "rif"=> "J000723060"
+                ),
+                array(
+                    "codigo"=> "0156",
+                    "nombre"=> "100% Banco, Banco Universal C.A.",
+                    "rif"=> "J085007768"
+                ),
+                array(
+                    "codigo"=> "0157",
+                    "nombre"=> "DelSur Banco Universal C.A.",
+                    "rif"=> "J000797234"
+                ),
+                array(
+                    "codigo"=> "0163",
+                    "nombre"=> "Banco del Tesoro, C.A. Banco Universal",
+                    "rif"=> "G200051876"
+                ),
+                array(
+                    "codigo"=> "0166",
+                    "nombre"=> "Banco Agrícola de Venezuela, C.A. Banco Universal",
+                    "rif"=> "G200057955"
+                ),
+                array(
+                    "codigo"=> "0168",
+                    "nombre"=> "Bancrecer, S.A. Banco Microfinanciero",
+                    "rif"=> "J316374173"
+                ),
+                array(
+                    "codigo"=> "0169",
+                    "nombre"=> "Mi Banco, Banco Microfinanciero C.A.",
+                    "rif"=> "J315941023"
+                ),
+                array(
+                    "codigo"=> "0171",
+                    "nombre"=> "Banco Activo, Banco Universal",
+                    "rif"=> "J080066227"
+                ),
+                array(
+                    "codigo"=> "0172",
+                    "nombre"=> "Bancamica, Banco Microfinanciero C.A.",
+                    "rif"=> "J316287599"
+                ),
+                array(
+                    "codigo"=> "0173",
+                    "nombre"=> "Banco Internacional de Desarrollo, C.A. Banco Universal",
+                    "rif"=> "J294640109"
+                ),
+                array(
+                    "codigo"=> "0174",
+                    "nombre"=> "Banplus Banco Universal, C.A",
+                    "rif"=> "J000423032"
+                ),
+                array(
+                    "codigo"=> "0175",
+                    "nombre"=> "Banco Bicentenario del Pueblo de la Clase Obrera, Mujer y Comunas B.U.",
+                    "rif"=> "G200091487"
+                ),
+                array(
+                    "codigo"=> "0176",
+                    "nombre"=> "Novo Banco, S.A. Sucursal Venezuela Banco Universal",
+                    "rif"=> "J308918644"
+                ),
+                array(
+                    "codigo"=> "0177",
+                    "nombre"=> "Banco de la Fuerza Armada Nacional Bolivariana, B.U.",
+                    "rif"=> "G200106573"
+                ),
+                array(
+                    "codigo"=> "0190",
+                    "nombre"=> "Citibank N.A.",
+                    "rif"=> "J000526621"
+                ),
+                array(
+                    "codigo"=> "0191",
+                    "nombre"=> "Banco Nacional de Crédito, C.A. Banco Universal",
+                    "rif"=> "J309841327"
+                ),
+                array(
+                    "codigo"=> "0601",
+                    "nombre"=> "Instituto Municipal de Crédito Popular",
+                    "rif"=> "G200068973"
+                )
+            );
+            /** END BANKS */
 
             //Set the options
             if($this->get_option( 'prod_key' ) != get_option( 'isoa_payment_settings_AES_KEY' )) {
@@ -163,10 +319,10 @@ function isoa_init_gateway_class() {
                 return;
             }
 
-            wp_register_style( 'generalStyle', plugins_url( 'assets/styles.css', __FILE__ ) );
+            wp_register_style( 'generalStyle', plugins_url( 'assets/styles.css?v=1.0', __FILE__ ) );
             wp_enqueue_style( 'generalStyle' );
 
-            wp_register_script( 'woocommerce_bank_isoa', plugins_url( 'assets/banks.js', __FILE__ ), array( 'jquery' ) );
+            wp_register_script( 'woocommerce_bank_isoa', plugins_url( 'assets/banks.js?v=2.1', __FILE__ ), array( 'jquery' ) );
             wp_enqueue_script( 'woocommerce_bank_isoa' );
 
 	 	}

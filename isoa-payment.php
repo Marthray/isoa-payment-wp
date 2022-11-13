@@ -64,7 +64,7 @@ function acc_init_gateway_isoa() {
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
             echo '<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
-                <input id="bvc_accNumber_2" name="bvc_accNumber" type="text" maxlength = "20" inputmode="decimal" autocomplete="off">
+                <input id="bvc_accNumber_2" name="bvc_accNumber" type="text" maxlength = "20" inputmode="decimal" autocomplete="off" class="w-100">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Nacionalidad <span class="required">*</span></label>
@@ -77,7 +77,7 @@ function acc_init_gateway_isoa() {
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Cédula <span class="required">*</span></label>
-                    <input id="bvc_cirif_2" name="bvc_cirif" type="text" autocomplete="off" placeholder="1234568">
+                    <input id="bvc_cirif_2" name="bvc_cirif" type="text" autocomplete="off" placeholder="1234568" class="w-100">
                 </div>
                 <div class="clear"></div>';
         
@@ -349,13 +349,21 @@ function c2p_init_gateway_isoa() {
             do_action( 'woocommerce_isoa_c2p_form_start', $this->id );
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
+            $optionsHTML = '';
+
+            foreach ($this->banks as $b) {
+                $optionsHTML .= '<option value="'.$b['codigo'].'">'.$b['nombre'].'</option>';
+            }
+
+
             echo '<div class="form-row form-row-wide"><label>Número Teléfono <span class="required">*</span></label>
-                <input id="c2p_phoneNumber_2" name="c2p_phoneNumber_2" type="text" autocomplete="off">
+                <input id="c2p_phoneNumber_2" name="c2p_phoneNumber_2" type="text" autocomplete="off" class="w-100">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Código de Banco <span class="required">*</span></label>
-                    <select id ="c2p_bank_2" name="c2p_bank_2" class="banks">
+                    <select id ="c2p_bank_2" name="c2p_bank_2" class="banks w-100">
                         <option value="">Seleccione</option>
+                        '.$optionsHTML.'
                     </select>
                 </div>
                 <div class="form-row form-row-wide">
@@ -369,11 +377,11 @@ function c2p_init_gateway_isoa() {
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Cédula <span class="required">*</span></label>
-                    <input id="c2p_cirif_2" name="c2p_cirif_2" type="text" autocomplete="off" placeholder="1234568">
+                    <input id="c2p_cirif_2" name="c2p_cirif_2" type="text" class="w-100" autocomplete="off" placeholder="1234568">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Token <span class="required">*</span></label>
-                    <input id="c2p_token_2" name="c2p_token_2" type="text" autocomplete="off" placeholder="12345678">
+                    <input id="c2p_token_2" name="c2p_token_2" type="text" class="w-100" autocomplete="off" placeholder="12345678">
                 </div>
                 <div class="clear"></div>';
         
@@ -613,20 +621,27 @@ function dbi_init_gateway_isoa() {
         
             // Add this action hook if you want your custom payment gateway to support it
             do_action( 'woocommerce_isoa_dbi_form_start', $this->id );
+
+            $optionsHTML = '';
+
+            foreach ($this->banks as $b) {
+                $optionsHTML .= '<option value="'.$b['codigo'].'">'.$b['nombre'].'</option>';
+            }
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
             echo '<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
-                <input id="dbi_account" name="dbi_account" type="text" autocomplete="off">
+                <input id="dbi_account" class="w-100" name="dbi_account" type="text" autocomplete="off">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Código de Banco <span class="required">*</span></label>
-                    <select id ="dbi_bank" name="dbi_bank" class="banks">
+                    <select id ="dbi_bank" name="dbi_bank" class="banks w-100">
                         <option value="">Seleccione</option>
+                        '.$optionsHTML.'
                     </select>
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Nacionalidad <span class="required">*</span></label>
-                    <select id ="dbi_precirif" name="dbi_precirif">
+                    <select id ="dbi_precirif" class="w-100" name="dbi_precirif">
                         <option value="">-</option>
                         <option value="V">V</option>
                         <option value="E">E</option>
@@ -637,13 +652,14 @@ function dbi_init_gateway_isoa() {
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Cédula <span class="required">*</span></label>
-                    <input id="dbi_cirif" name="dbi_cirif" type="text" autocomplete="off" placeholder="1234568">
+                    <input id="dbi_cirif" class="w-100" name="dbi_cirif" type="text" autocomplete="off" placeholder="1234568">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Token <span class="required">*</span></label>
-                    <input id="dbi_token" name="dbi_token" type="text" autocomplete="off" placeholder="12345678">
+                    <input id="dbi_token" class="w-100" name="dbi_token" type="text" autocomplete="off" placeholder="12345678">
                 </div>
                 <div class="clear"></div>';
+                
         
             do_action( 'woocommerce_isoa_dbi_form_end', $this->id );
         
@@ -883,7 +899,7 @@ function tdc_init_gateway_isoa() {
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
             echo '<div class="form-row form-row-wide"><label>Número de Tarjeta <span class="required">*</span></label>
-                <input id="tdc_cardNumber_2" name="tdc_cardNumber_2" type="text" maxlength = "16" inputmode="decimal" autocomplete="off">
+                <input id="tdc_cardNumber_2" class="w-100" name="tdc_cardNumber_2" type="text" maxlength = "16" inputmode="decimal" autocomplete="off">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Nacionalidad <span class="required">*</span></label>
@@ -898,15 +914,15 @@ function tdc_init_gateway_isoa() {
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Cédula <span class="required">*</span></label>
-                    <input id="tdc_cirif_2" name="tdc_cirif_2" type="text" autocomplete="off" placeholder="1234568">
+                    <input id="tdc_cirif_2" class="w-100" name="tdc_cirif_2" type="text" autocomplete="off" placeholder="1234568">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Fecha de expiración <span class="required">*</span></label>
-                    <input id="tdc_expiry_2" name="tdc_expiry_2" type="text" autocomplete="off" placeholder="MM/AA" maxlength="5">
+                    <input id="tdc_expiry_2" class="w-100" name="tdc_expiry_2" type="text" autocomplete="off" placeholder="MM/AA" maxlength="5">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>CVV <span class="required">*</span></label>
-                    <input id="tdc_cvv_2" name="tdc_cvv_2" type="password" maxlength="3" autocomplete="off" placeholder="123">
+                    <input id="tdc_cvv_2" class="w-100" name="tdc_cvv_2" type="password" maxlength="3" autocomplete="off" placeholder="123">
                 </div>
                 <div class="clear"></div>';
         

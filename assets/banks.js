@@ -152,14 +152,30 @@ var banksJson = [
     }
 ]
 
-jQuery(function($){
+//init_checkout
+
+/*jQuery('body').on('init_checkout', function() {
+    console.log('checkout initialized')
     let htmlOptions = "";
 
     for(const b of banksJson) {
         htmlOptions += `<option value="${b.codigo}">${b.nombre}</option>\n`;
     }
 
-	$(".banks").each(() => {
-        $(this).append(htmlOptions);
+    jQuery(".banks").each(function (i) {
+        try {
+            console.log(i);
+            console.log(jQuery(".banks")[i]);
+            jQuery(this).append(htmlOptions);   
+        } catch (error) {
+            console.log(error)
+        }
     })
-});
+})*/
+
+jQuery(document.body).on(
+    "init_checkout payment_method_selected update_checkout updated_checkout checkout_error applied_coupon_in_checkout removed_coupon_in_checkout adding_to_cart added_to_cart removed_from_cart wc_cart_button_updated cart_page_refreshed cart_totals_refreshed wc_fragments_loaded init_add_payment_method wc_cart_emptied updated_wc_div updated_cart_totals country_to_state_changed updated_shipping_method applied_coupon removed_coupon",
+    function (e) {
+      console.log(e.type)
+    }
+  )
