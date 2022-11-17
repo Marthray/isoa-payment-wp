@@ -64,11 +64,11 @@ function acc_init_gateway_isoa() {
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
             echo '<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
-                <input id="bvc_accNumber_2" name="bvc_accNumber" type="text" maxlength = "20" inputmode="decimal" autocomplete="off" class="w-100">
+                <input id="bvc_accNumber_2" name="bvc_accNumber_2" type="text" maxlength = "20" inputmode="decimal" autocomplete="off" class="w-100">
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Nacionalidad <span class="required">*</span></label>
-                    <select id ="bvc_precirif_2" name="bvc_precirif">
+                    <select id ="bvc_precirif_2" name="bvc_precirif_2">
                         <option value="">-</option>
                         <option value="V">V</option>
                         <option value="E">E</option>
@@ -77,7 +77,7 @@ function acc_init_gateway_isoa() {
                 </div>
                 <div class="form-row form-row-wide">
                     <label>Cédula <span class="required">*</span></label>
-                    <input id="bvc_cirif_2" name="bvc_cirif" type="text" autocomplete="off" placeholder="1234568" class="w-100">
+                    <input id="bvc_cirif_2" name="bvc_cirif_2" type="text" autocomplete="off" placeholder="1234568" class="w-100">
                 </div>
                 <div class="clear"></div>';
         
@@ -91,7 +91,7 @@ function acc_init_gateway_isoa() {
 		 */
 		public function validate_fields() {
             if( empty( $_POST[ 'bvc_accNumber_2' ]) || !preg_match($this->regexAccount, $_POST[ 'bvc_accNumber_2' ]) ) {
-                wc_add_notice(  'Numero de telefono inválido!', 'error' );
+                wc_add_notice(  'Numero de cuenta inválida!', 'error' );
                 return false;
             }
             if( empty( $_POST[ 'bvc_cirif_2' ]) || !preg_match($this->regexCiRif, $_POST[ 'bvc_cirif_2' ]) ) {
@@ -150,8 +150,8 @@ function acc_init_gateway_isoa() {
             $dtArray = null;
             if ($_POST['getTokenStep'] == "1") {
                 $dtArr = array(
-                    'method' => 'BVC',
-                    'tipoPago' => 'BVC',
+                    'method' => 'TRN',
+                    'operation' => 'BVC',
                     'preCiRif'=> $_POST[ 'bvc_precirif_2' ],
                     'ciRif' => $_POST[ 'bvc_cirif_2' ],
                     'monto' => $order->get_total() * $this->rate,
@@ -165,6 +165,8 @@ function acc_init_gateway_isoa() {
                 );
             } else {
                 $dtArr = array(
+                    'method' => 'TRN',
+                    'operation'=> 'BVC-2',
                     'idPago'=> $_POST[ 'idPago' ],
                     'token' => $_POST[ 'token' ]
                 );
@@ -194,9 +196,6 @@ function acc_init_gateway_isoa() {
 
             //TODO: CAMBIAR POR OTROS METODOS DE PAGO
             $endpoint = $this->endpointAPI;
-            if ($_POST[ 'getTokenStep' ] != "1") {
-                $endpoint .= '/token';
-            }
             $response = wp_remote_post($endpoint, $args );
 
             //Validar si es token o no
@@ -438,7 +437,7 @@ function c2p_init_gateway_isoa() {
                 'ciRif' => $_POST[ 'c2p_cirif_2' ],
                 'bank' => $_POST[ 'c2p_bank_2' ],
                 'monto' => $order->get_total(),
-                'phone' => $_POST[ 'c2p_phoneNumber_2' ],
+                'phone' => '58' . substr($_POST[ 'c2p_phoneNumber_2' ], 1),
                 'concept'=> $order->get_customer_note(),
                 'clientName' => '',
                 'postalCode' => '',
@@ -999,15 +998,16 @@ function tdc_init_gateway_isoa() {
                 'method' => 'TDC',
                 'tipoPago' => 'TDC',
                 'preCiRif'=> $_POST[ 'tdc_precirif_2' ],
-                'ciRif' => $_POST[ 'tdc_cirif_2' ],
+                'ciRif' => $_POST[ 'tdc_precirif_2' ] . $_POST[ 'tdc_cirif_2' ],
                 'monto' => $order->get_total(),
-                'cuentaTDC' => $_POST[ 'tdc_cardNumber' ],
-                'fechaExp' => $_POST[ 'tdc_expiry' ],
+                'numTarjeta' => $_POST[ 'tdc_cardNumber_2' ],
+                'expiryDate' => $_POST[ 'tdc_expiry_2' ],
+                'cvv' => $_POST[ 'tdc_cvv_2' ],
                 'concept'=> $order->get_customer_note(),
-                'clientName' => '',
+                'clientName' => 'Saul Ordonez', //TOMAR DE DE SESION
                 'postalCode' => '',
                 'address' => '',
-                'email' => '',
+                'email' => 'brianjesusmoreno@gmail.com',
                 'coin' => ''
             );
 
@@ -1050,7 +1050,7 @@ function tdc_init_gateway_isoa() {
                             $responseObject = json_decode($responseDecrypted, true);
                             if (wp_remote_retrieve_response_code( $response ) == 200) {
 
-                                if($responseObject['status'] == 'A') {
+                                if($responseObject['statusCode'] == 'P') {
                                     // we received the payment
                                     $order->payment_complete();
                                     $order->reduce_order_stock();
