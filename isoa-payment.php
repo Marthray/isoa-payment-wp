@@ -683,7 +683,7 @@ function dbi_init_gateway_isoa() {
 		public function validate_fields() {
             
 
-            if( empty( $_POST[ 'dbi_account' ]) || !preg_match($this->regexAccount2, $_POST[ 'dbi_account' ]) ) {
+            if( empty( $_POST[ 'dbi_account' ]) ) {
                 wc_add_notice(  'Numero de cuenta inválido!', 'error' );
                 return false;
             }
@@ -718,14 +718,14 @@ function dbi_init_gateway_isoa() {
 
             //TODO: Preguntar el tipo de pago, ahorita es solo C2P
             $dtArr = array(
-                'method' => 'CCE',
-                'tipoPago' => 'DBI',
+                'method' => 'DEI',
+                'tipoPago' => 'DEI',
                 'otp' => $_POST[ 'dbi_token' ],
                 'preCiRif'=> $_POST[ 'dbi_precirif' ],
                 'ciRif' => $_POST[ 'dbi_cirif' ],
                 'bank' => $_POST[ 'dbi_bank' ],
                 'monto' => $order->get_total(),
-                'account' => $_POST[ 'dbi_account' ],
+                'phone' => $_POST[ 'dbi_account' ],
                 'concept'=> $order->get_customer_note(),
                 'clientName' => $order->get_first_name . ' ' . $order->get_last_name,
                 'postalCode' => '',
