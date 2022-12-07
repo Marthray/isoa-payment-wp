@@ -151,22 +151,22 @@ function acc_init_gateway_isoa() {
             if ($_POST['getTokenStep'] == "1") {
                 $dtArr = array(
                     'method' => 'TRN',
-                    'operation' => 'BVC',
+                    'tipoPago' => 'BVC',
                     'preCiRif'=> $_POST[ 'bvc_precirif_2' ],
                     'ciRif' => $_POST[ 'bvc_cirif_2' ],
-                    'monto' => $order->get_total() * $this->rate,
-                    'phone' => $_POST[ 'bvc_accNumber_2' ],
+                    'monto' => $order->get_total(),
+                    'account' => $_POST[ 'bvc_accNumber_2' ],
                     'concept'=> $order->get_customer_note(),
-                    'clientName' => '',
+                    'clientName' => 'Brian AMaya',
                     'postalCode' => '',
                     'address' => '',
-                    'email' => '',
+                    'email' => 'brianjesusmoreno@gmail.com',
                     'coin' => ''
                 );
             } else {
                 $dtArr = array(
                     'method' => 'TRN',
-                    'operation'=> 'BVC-2',
+                    'tipoPago'=> 'BVC-2',
                     'idPago'=> $_POST[ 'idPago' ],
                     'token' => $_POST[ 'token' ]
                 );
@@ -177,8 +177,7 @@ function acc_init_gateway_isoa() {
 
             //setting array body
             $bodyIni = array(
-                'hs' => $this->hash,
-                'dt' => $dt
+                'rmv' => $dt
             );
          
             /*
@@ -204,52 +203,60 @@ function acc_init_gateway_isoa() {
         
                 $body = json_decode( $response['body'], true );
                 // it could be different depending on your payment processor
+                // it could be different depending on your payment processor
                 if ( !is_null($body['response']) ) {
 
                     //validate response from API
                     if (is_null($body['response']['encrypted']) || $body['response']['encrypted'] != '1') {
-                        $responseDecrypted = $this->encrypt_decrypt('decrypt', $body['response'], $this->key);
-                        echo "hhh\n\n".$responseDecrypted."\n\n";
+                        $responseDecrypted = $this->encrypt_decrypt('decrypt', $body['response'], $this->key, $this->vector);
                         if(!is_null($responseDecrypted) && $responseDecrypted != '') {
                             //Get the object from json string
                             $responseObject = json_decode($responseDecrypted, true);
                             if (wp_remote_retrieve_response_code( $response ) == 200) {
-
-                                if($responseObject['status'] == 'A') {
-                                    // we received the payment
-                                    $order->payment_complete();
-                                    $order->reduce_order_stock();
-                        
-                                    // some notes to customer (replace true with false to make it private)
-                                    $order->add_order_note( 'Hey, your order is paid! Thank you!', true );
-                        
-                                    // Empty cart
-                                    $woocommerce->cart->empty_cart();
-                        
-                                    // Redirect to the thank you page
-                                    return array(
-                                        'result' => 'success',
-                                        'redirect' => $this->get_return_url( $order )
-                                    );
+                                if ($_POST[ 'getTokenStep' ] == "1") {
+                                    wc_add_notice(  "BVC_" . $responseObject['idPago'] , 'error');
+                                    return;
                                 } else {
-                                    if(!is_null($responseObject['mensaje'])) {
-
-                                        wc_add_notice( $responseObject['mensaje'] , 'error' );
-                
+                                    if($responseObject['estatus'] == 'Pagado') {
+                                        // we received the payment
+                                        $order->payment_complete();
+                                        $order->reduce_order_stock();
+                            
+                                        // some notes to customer (replace true with false to make it private)
+                                        $order->add_order_note( 'Hey, your order is paid! Thank you!', true );
+                            
+                                        // Empty cart
+                                        $woocommerce->cart->empty_cart();
+                            
+                                        // Redirect to the thank you page
+                                        return array(
+                                            'result' => 'success',
+                                            'redirect' => $this->get_return_url( $order )
+                                        );
                                     } else {
-                
-                                        wc_add_notice( 'Por favor, intente más tarde' , 'error' );
-                                        
+                                        if(!is_null($responseObject['mensaje'])) {
+    
+                                            wc_add_notice( $responseObject['mensaje'] , 'error' );
+                                            return;
+                    
+                                        } else {
+                    
+                                            wc_add_notice( 'Por favor, intente más tarde' , 'error' );
+                                            return;
+                                            
+                                        }
                                     }
                                 }
                             } else {
                                 if(!is_null($responseObject['mensaje'])) {
 
                                     wc_add_notice( $responseObject['mensaje'] , 'error' );
+                                    return;
             
                                 } else {
             
-                                    wc_add_notice( 'Por favor, intente más tarde'  , 'error' );
+                                    wc_add_notice( json_encode($response)  , 'error' );
+                                    return;
                                     
                                 } 
                             }   
@@ -258,10 +265,12 @@ function acc_init_gateway_isoa() {
                     } else if(!is_null($body['response']['mensaje'])) {
 
                         wc_add_notice( $body['response']['mensaje'] , 'error' );
+                        return;
 
                     } else {
 
                         wc_add_notice( 'Por favor, intente más tarde' , 'error' );
+                        return;
                         
                     }
         
@@ -272,14 +281,17 @@ function acc_init_gateway_isoa() {
                             $responseDecrypted = $this->encrypt_decrypt('decrypt', $body['response'], $this->key, $this->vector);
                             $responseObject = json_decode($responseDecrypted, true);
                             wc_add_notice( $responseObject['mensaje'] , 'error' );
+                            return;
 
                         } else if(!is_null($body['response']['mensaje'])) {
 
                             wc_add_notice( $body['response']['mensaje'] , 'error' );
+                            return;
 
                         } else {
 
                             wc_add_notice( 'Por favor, intente más tarde' , 'error' );
+                            return;
 
                         }
                     }
@@ -439,7 +451,7 @@ function c2p_init_gateway_isoa() {
                 'monto' => $order->get_total(),
                 'phone' => '58' . substr($_POST[ 'c2p_phoneNumber_2' ], 1),
                 'concept'=> $order->get_customer_note(),
-                'clientName' => '',
+                'clientName' => $order->get_first_name . ' ' . $order->get_last_name,
                 'postalCode' => '',
                 'address' => '',
                 'email' => '',
@@ -715,7 +727,7 @@ function dbi_init_gateway_isoa() {
                 'monto' => $order->get_total(),
                 'account' => $_POST[ 'dbi_account' ],
                 'concept'=> $order->get_customer_note(),
-                'clientName' => '',
+                'clientName' => $order->get_first_name . ' ' . $order->get_last_name,
                 'postalCode' => '',
                 'address' => '',
                 'email' => '',
@@ -1004,7 +1016,7 @@ function tdc_init_gateway_isoa() {
                 'expiryDate' => $_POST[ 'tdc_expiry_2' ],
                 'cvv' => $_POST[ 'tdc_cvv_2' ],
                 'concept'=> $order->get_customer_note(),
-                'clientName' => 'Saul Ordonez', //TOMAR DE DE SESION
+                'clientName' => $order->get_first_name . ' ' . $order->get_last_name, //TOMAR DE DE SESION
                 'postalCode' => '',
                 'address' => '',
                 'email' => 'brianjesusmoreno@gmail.com',
