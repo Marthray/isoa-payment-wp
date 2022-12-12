@@ -157,10 +157,10 @@ function acc_init_gateway_isoa() {
                     'monto' => $order->get_total(),
                     'account' => $_POST[ 'bvc_accNumber_2' ],
                     'concept'=> $order->get_customer_note(),
-                    'clientName' => 'Brian AMaya',
+                    'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
                     'postalCode' => '',
                     'address' => '',
-                    'email' => 'brianjesusmoreno@gmail.com',
+                    'email' => $order->get_billing_email(),
                     'coin' => ''
                 );
             } else {
@@ -451,13 +451,14 @@ function c2p_init_gateway_isoa() {
                 'monto' => $order->get_total(),
                 'phone' => '58' . substr($_POST[ 'c2p_phoneNumber_2' ], 1),
                 'concept'=> $order->get_customer_note(),
-                'clientName' => $order->get_first_name . ' ' . $order->get_last_name,
+                'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
                 'postalCode' => '',
                 'address' => '',
                 'email' => '',
                 'coin' => ''
             );
 
+            echo $dtArr;
             $dt = json_encode($dtArr);
             $dt = $this->encrypt_decrypt('encrypt', $dt, $this->key);
 
@@ -727,7 +728,7 @@ function dbi_init_gateway_isoa() {
                 'monto' => $order->get_total(),
                 'phone' => $_POST[ 'dbi_account' ],
                 'concept'=> $order->get_customer_note(),
-                'clientName' => $order->get_first_name . ' ' . $order->get_last_name,
+                'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
                 'postalCode' => '',
                 'address' => '',
                 'email' => '',
@@ -1016,10 +1017,10 @@ function tdc_init_gateway_isoa() {
                 'expiryDate' => $_POST[ 'tdc_expiry_2' ],
                 'cvv' => $_POST[ 'tdc_cvv_2' ],
                 'concept'=> $order->get_customer_note(),
-                'clientName' => $order->get_first_name . ' ' . $order->get_last_name, //TOMAR DE DE SESION
+                'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(), //TOMAR DE DE SESION
                 'postalCode' => '',
                 'address' => '',
-                'email' => 'brianjesusmoreno@gmail.com',
+                'email' => $order->get_billing_email(),
                 'coin' => ''
             );
 
