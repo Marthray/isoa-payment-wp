@@ -5,8 +5,8 @@
 
  function isoa_payment_settings_menu() {
     add_menu_page(
-        'Isoa Payment Settings',
-        'Isoa Payment Settings',
+        'TusPagos Payment Settings',
+        'TusPagos Payment Settings',
         'manage_options',
         'isoa_payment_settings_page',
         'isoa_payment_settings_tempalte_callback',
@@ -47,7 +47,7 @@
   function isoa_payment_settings_init() {
     add_settings_section(
         'isoa_payment_settings_section',
-        'ISOA Payment Page',
+        'TusPagos Payment Page',
         '',
         'isoa_payment_settings_page'
     );

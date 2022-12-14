@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: ISOA Custom Payment Gateway
+ * Plugin Name: TusPagos Custom Payment Gateway
  * Plugin URI: 
  * Description: Process payments through Venezolano de Credito's API REST (BVC)
  * Author: Brian Amaya
@@ -9,10 +9,10 @@
  */
 
 // Defining root DIR
-include_once( WP_PLUGIN_DIR . '/pluginISOA/isoa-plugin-core.php' );
+include_once( WP_PLUGIN_DIR . '/paymentGatewayTusPagos/isoa-plugin-core.php' );
 
 //Menu
-require_once WP_PLUGIN_DIR . '/pluginISOA/inc/settings/settings.php';
+require_once WP_PLUGIN_DIR . '/paymentGatewayTusPagos/inc/settings/settings.php';
 
 /**
  * BVC PAYMENT GATEWAY
@@ -38,7 +38,7 @@ function acc_init_gateway_isoa() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("accisoa", "Pago por cuenta BVC ISOA", "Procesar con cuenta BVC ISOA");
+            parent::__construct("accisoa", "Pago por cuenta BVC TusPagos", "Procesar con cuenta BVC TusPagos");
  		}
 
 		/**
@@ -335,7 +335,7 @@ function c2p_init_gateway_isoa() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("c2pisoa", "Pago por C2P ISOA", "Procesar con pago C2P ISOA");
+            parent::__construct("c2pisoa", "Pago por C2P TusPagos", "Procesar con pago C2P TusPagos");
  		}
 
 		/**
@@ -610,7 +610,7 @@ function dbi_init_gateway_isoa() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("dbiisoa", "Pago por Debito Inmediato ISOA", "Procesar con pago Debito Inmediato ISOA");
+            parent::__construct("dbiisoa", "Pago por Debito Inmediato TusPagos", "Procesar con pago Debito Inmediato TusPagos");
  		}
 
 		/**
@@ -885,7 +885,7 @@ function tdc_init_gateway_isoa() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("tdcisoa", "Pago por TDC ISOA", "Procesar con pago TDC ISOA");
+            parent::__construct("tdcisoa", "Pago por TDC TusPagos", "Procesar con pago TDC TusPagos");
  		}
 
 		/**

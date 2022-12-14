@@ -237,7 +237,7 @@ function isoa_init_gateway_class() {
             $this->form_fields = array(
                 'enabled' => array(
                     'title'       => 'Activar / Desactivar',
-                    'label'       => 'Activar Botón de Pago ISOA',
+                    'label'       => 'Activar Botón de Pago TusPagos',
                     'type'        => 'checkbox',
                     'description' => '',
                     'default'     => 'no'
