@@ -319,7 +319,7 @@ function isoa_init_gateway_class() {
                 return;
             }
 
-            wp_register_style( 'generalStyle', plugins_url( 'assets/styles.css?v=1.0', __FILE__ ) );
+            wp_register_style( 'generalStyle', plugins_url( 'assets/styles.css?v=1.2', __FILE__ ) );
             wp_enqueue_style( 'generalStyle' );
 
             wp_register_script( 'woocommerce_bank_isoa', plugins_url( 'assets/banks.js?v=2.1', __FILE__ ), array( 'jquery' ) );

@@ -21,8 +21,8 @@ var tokenRequest = function() {
 	// and fires successCallback() on success and errorCallback on failure
 	var checkout_form = jQuery( 'form.woocommerce-checkout' );
 
-	if (jQuery('#getTokenStep').length == 0) {
-        checkout_form.append('<input type="hidden" id="getTokenStep" name="getTokenStep" value="1">');
+	if (jQuery('#getTokenStep2').length == 0) {
+        checkout_form.append('<input type="hidden" id="getTokenStep2" name="getTokenStep2" value="1">');
     }
 
 	var error_count = jQuery('.woocommerce-error li').length;
@@ -36,9 +36,9 @@ var tokenRequest = function() {
 jQuery(function($){
 	$(document.body).on('checkout_error', async function () {
 		var error_count = $('.woocommerce-error li').length;
-		const regex = /(BVC_(.){1,})/
+		const regex = /(BVC2_(.){1,})/
 
-		$('#getTokenStep').val('1');
+		$('#getTokenStep2').val('1');
 	
 		if (error_count == 1) { // Validation Passed (Just the Fake Error I Created Exists)
 			/*let token = null
@@ -72,7 +72,7 @@ jQuery(function($){
 					if(token != null && token != '') {
 						checkout_form.append('<input type="hidden" id="token" name="token" value='+token+'>');
 						checkout_form.append('<input type="hidden" id="idPago" name="idPago" value='+idPago+'>');
-						$('#getTokenStep').val('');
+						$('#getTokenStep2').val('');
 						$('#place_order').trigger('click');
 					}
 				}

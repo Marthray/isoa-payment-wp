@@ -148,7 +148,7 @@ function acc_init_gateway_isoa() {
 
             //TODO: Preguntar el tipo de pago, ahorita es solo TDC
             $dtArray = null;
-            if ($_POST['getTokenStep'] == "1") {
+            if ($_POST['getTokenStep2'] == "1") {
                 $dtArr = array(
                     'method' => 'TRN',
                     'tipoPago' => 'BVC',
@@ -213,8 +213,8 @@ function acc_init_gateway_isoa() {
                             //Get the object from json string
                             $responseObject = json_decode($responseDecrypted, true);
                             if (wp_remote_retrieve_response_code( $response ) == 200) {
-                                if ($_POST[ 'getTokenStep' ] == "1") {
-                                    wc_add_notice(  "BVC_" . $responseObject['idPago'] , 'error');
+                                if ($_POST[ 'getTokenStep2' ] == "1") {
+                                    wc_add_notice(  "BVC2_" . $responseObject['idPago'] , 'error');
                                     return;
                                 } else {
                                     if($responseObject['estatus'] == 'Pagado') {
