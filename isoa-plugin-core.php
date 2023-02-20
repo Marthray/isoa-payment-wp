@@ -220,11 +220,25 @@ function isoa_init_gateway_class() {
             $this->hash = $this->testmode ? $this->get_option( 'test_hash' ) : $this->get_option( 'prod_hash' );
             $this->endpointAPI = $this->testmode ? $this->get_option( 'test_url' ) : $this->get_option( 'prod_url' );
 
+            if($this->rate <= 0) {
+                $this->rate = 1;
+             }
+
             // This action hook saves the settings
             add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
             // We need custom JavaScript to obtain a token
             add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
+
+            wp_register_style( 'generalStyle', plugins_url( 'assets/styles.css?v=1.2', __FILE__ ) );
+            wp_enqueue_style( 'generalStyle' );
+
+            wp_register_script( 'woocommerce_bank_isoa', plugins_url( 'assets/banks.js?v=2.1', __FILE__ ), array( 'jquery' ) );
+            wp_enqueue_script( 'woocommerce_bank_isoa' );
+
+            wp_enqueue_script('sweetAlert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@11');
+	        wp_register_script( 'woocommerce_bvc_isoa', plugins_url( 'assets/bvc.js?v=1.1', __FILE__ ), array( 'jquery' ) );
+            wp_enqueue_script( 'woocommerce_bvc_isoa' );
             
             // You can also register a webhook here
             // add_action( 'woocommerce_api_{webhook name}', array( $this, 'webhook' ) );
@@ -318,16 +332,6 @@ function isoa_init_gateway_class() {
             if ( ! $this->testmode && ! is_ssl() ) {
                 return;
             }
-
-            wp_register_style( 'generalStyle', plugins_url( 'assets/styles.css?v=1.2', __FILE__ ) );
-            wp_enqueue_style( 'generalStyle' );
-
-            wp_register_script( 'woocommerce_bank_isoa', plugins_url( 'assets/banks.js?v=2.1', __FILE__ ), array( 'jquery' ) );
-            wp_enqueue_script( 'woocommerce_bank_isoa' );
-
-            wp_enqueue_script('sweetAlert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@11');
-	        wp_register_script( 'woocommerce_bvc_isoa', plugins_url( 'assets/bvc.js?v=1.1', __FILE__ ), array( 'jquery' ) );
-            wp_enqueue_script( 'woocommerce_bvc_isoa' );
 
 	 	}
 
