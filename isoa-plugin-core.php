@@ -273,38 +273,6 @@ function isoa_init_gateway_class() {
                     'title'       => 'Tasa de USD',
                     'type'        => 'number',
                     'description' => 'Contiene la tasa a la que se le cobrará el dolar',
-                ),
-                'testmode' => array(
-                    'title'       => 'Ambiente de desarrolo',
-                    'label'       => 'Activar ambiente de desarrollo',
-                    'type'        => 'checkbox',
-                    'description' => 'Para activar ambiente de desarrollo',
-                    'default'     => 'yes',
-                    'desc_tip'    => true,
-                ),
-                'test_hash' => array(
-                    'title'       => 'API Key Desarrollo',
-                    'type'        => 'text'
-                ),
-                'test_key' => array(
-                    'title'       => 'Llave Desarrollo',
-                    'type'        => 'text'
-                ),
-                'test_url' => array(
-                    'title'       => 'URL Desarrollo',
-                    'type'        => 'text',
-                ),
-                'prod_hash' => array(
-                    'title'       => 'API Key Producción',
-                    'type'        => 'text'
-                ),
-                'prod_key' => array(
-                    'title'       => 'Llave Producción',
-                    'type'        => 'text'
-                ),
-                'prod_url' => array(
-                    'title'       => 'URL Producción',
-                    'type'        => 'text',
                 )
             );
 	 	}

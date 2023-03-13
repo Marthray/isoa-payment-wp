@@ -404,7 +404,7 @@
     $isoa_payment_input_field = get_option('isoa_payment_settings_send');
     ?>
 
-    <button name="isoa_payment_settings_send" onclick = "event.preventDefault();sendToRamon()">Enviar</button>
+    <button name="isoa_payment_settings_send" onclick = "event.preventDefault();sendToRamon()">Click aquí para generar las credenciales antes de continuar</button>
     <script>
         function sendToRamon() {
             console.log('SE ENVIO LA BROMA');

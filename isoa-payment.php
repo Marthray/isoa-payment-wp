@@ -1,11 +1,14 @@
 <?php
 /*
  * Plugin Name: TusPagos Custom Payment Gateway
- * Plugin URI: 
+ * Plugin URI: http://isoatec.com/tuspagos/plugins
  * Description: Process payments through Venezolano de Credito's API REST (BVC)
  * Author: TusPagos
  * Author URI: http://isoatec.com
- * Version: 1.0.0
+ * Version: 1.7.0
+ * Update URI: http://isoatec.com/tuspagos/pluginsupdate
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // Defining root DIR
@@ -39,6 +42,13 @@ function acc_init_gateway_isoa() {
  		 */
  		public function __construct() {
             parent::__construct("accisoa", "TP Cuentas Venezolano de Credito", "TP Cuentas Venezolano de Credito");
+            if($this->rate <= 0) {
+                $this->rate = 1;
+            }
+
+            $this->testUrl = "";
+            $this->prodUrl = "https://api.tuspagos.net:8443/api/paywp";
+            $this->endpointAPI = "https://api.tuspagos.net:8443/api/paywp";
  		}
 
 		/**
@@ -336,6 +346,13 @@ function c2p_init_gateway_isoa() {
  		 */
  		public function __construct() {
             parent::__construct("c2pisoa", "TP Cobro Pago Movil", "TP Cobro Pago Movil");
+            if($this->rate <= 0) {
+                $this->rate = 1;
+            }
+
+            $this->testUrl = "";
+            $this->prodUrl = "https://api.tuspagos.net:8443/api/paywp";
+            $this->endpointAPI = "https://api.tuspagos.net:8443/api/paywp";
  		}
 
 		/**
@@ -593,16 +610,16 @@ function c2p_init_gateway_isoa() {
   /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'dbi_add_gateway_isoa' );
+/*add_filter( 'woocommerce_payment_gateways', 'dbi_add_gateway_isoa' );
 function dbi_add_gateway_isoa( $gateways ) {
 	$gateways[] = 'WC_DBI_Gateway_ISOA'; // your class name is here
 	return $gateways;
-}
+}*/
 
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'dbi_init_gateway_isoa' );
+/*add_action( 'plugins_loaded', 'dbi_init_gateway_isoa' );*/
 function dbi_init_gateway_isoa() {
 
 	class WC_DBI_Gateway_ISOA extends WC_ISOA_Gateway {
@@ -611,6 +628,13 @@ function dbi_init_gateway_isoa() {
  		 */
  		public function __construct() {
             parent::__construct("dbiisoa", "TP Cuentas Bancarias Venezolanas", "TP Cuentas Bancarias Venezolanas");
+            if($this->rate <= 0) {
+                $this->rate = 1;
+            }
+
+            $this->testUrl = "";
+            $this->prodUrl = "https://api.tuspagos.net:8443/api/paywp";
+            $this->endpointAPI = "https://api.tuspagos.net:8443/api/paywp";
  		}
 
 		/**
@@ -886,6 +910,13 @@ function tdc_init_gateway_isoa() {
  		 */
  		public function __construct() {
             parent::__construct("tdcisoa", "TP Tarjetas de Credito", "TP Tarjetas de Credito");
+            if($this->rate <= 0) {
+                $this->rate = 1;
+            }
+
+            $this->testUrl = "";
+            $this->prodUrl = "https://api.tuspagos.net:8443/api/paywp";
+            $this->endpointAPI = "https://api.tuspagos.net:8443/api/paywp";
  		}
 
 		/**
