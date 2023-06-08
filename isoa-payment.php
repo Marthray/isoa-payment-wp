@@ -5,7 +5,7 @@
  * Description: Process payments through Venezolano de Credito's API REST (BVC)
  * Author: TusPagos
  * Author URI: http://isoatec.com
- * Version: 1.7.0
+ * Version: 1.9.0
  * Update URI: http://isoatec.com/tuspagos/pluginsupdate
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -41,7 +41,7 @@ function acc_init_gateway_isoa() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("accisoa", "TP Cuentas Venezolano de Credito", "TP Cuentas Venezolano de Credito");
+            parent::__construct("accisoa", "Cuentas Venezolano de Credito (TusPagos)", "Cuentas Venezolano de Credito (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -345,7 +345,7 @@ function c2p_init_gateway_isoa() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("c2pisoa", "TP Cobro Pago Movil", "TP Cobro Pago Movil");
+            parent::__construct("c2pisoa", "Cobro Pago Movil (TusPagos)", "Cobro Pago Movil (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -610,16 +610,16 @@ function c2p_init_gateway_isoa() {
   /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-/*add_filter( 'woocommerce_payment_gateways', 'dbi_add_gateway_isoa' );
+add_filter( 'woocommerce_payment_gateways', 'dbi_add_gateway_isoa' );
 function dbi_add_gateway_isoa( $gateways ) {
 	$gateways[] = 'WC_DBI_Gateway_ISOA'; // your class name is here
 	return $gateways;
-}*/
+}
 
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-/*add_action( 'plugins_loaded', 'dbi_init_gateway_isoa' );*/
+add_action( 'plugins_loaded', 'dbi_init_gateway_isoa' );
 function dbi_init_gateway_isoa() {
 
 	class WC_DBI_Gateway_ISOA extends WC_ISOA_Gateway {
@@ -627,7 +627,7 @@ function dbi_init_gateway_isoa() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("dbiisoa", "TP Cuentas Bancarias Venezolanas", "TP Cuentas Bancarias Venezolanas");
+            parent::__construct("dbiisoa", "Cuentas Bancarias Venezolanas (TusPagos)", "Cuentas Bancarias Venezolanas (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -909,7 +909,7 @@ function tdc_init_gateway_isoa() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("tdcisoa", "TP Tarjetas de Credito", "TP Tarjetas de Credito");
+            parent::__construct("tdcisoa", "Tarjetas de Credito (TusPagos)", "Tarjetas de Credito (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
