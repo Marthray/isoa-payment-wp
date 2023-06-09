@@ -5,7 +5,7 @@
  * Description: Process payments through Venezolano de Credito's API REST (BVC)
  * Author: TusPagos
  * Author URI: http://isoatec.com
- * Version: 1.9.0
+ * Version: 1.13.0
  * Update URI: http://isoatec.com/tuspagos/pluginsupdate
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -159,12 +159,17 @@ function acc_init_gateway_isoa() {
             //TODO: Preguntar el tipo de pago, ahorita es solo TDC
             $dtArray = null;
             if ($_POST['getTokenStep2'] == "1") {
+                $tasaUSD = 1;
+
+                if($this->currency == "USD")
+                    $tasaUSD = $this->obtenerTasa();
+                    
                 $dtArr = array(
                     'method' => 'TRN',
                     'tipoPago' => 'BVC',
                     'preCiRif'=> $_POST[ 'bvc_precirif_2' ],
                     'ciRif' => $_POST[ 'bvc_cirif_2' ],
-                    'monto' => $order->get_total(),
+                    'monto' => round($order->get_total() * $tasaUSD, 2), 
                     'account' => $_POST[ 'bvc_accNumber_2' ],
                     'concept'=> $order->get_customer_note(),
                     'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
@@ -456,6 +461,10 @@ function c2p_init_gateway_isoa() {
             // we need it to get any order detailes
             $order = wc_get_order( $order_id );
             $data = $order->get_data(); // order data
+            $tasaUSD = 1;
+
+            if($this->currency == "USD")
+                $tasaUSD = $this->obtenerTasa();            
 
             //TODO: Preguntar el tipo de pago, ahorita es solo C2P
             $dtArr = array(
@@ -465,7 +474,7 @@ function c2p_init_gateway_isoa() {
                 'preCiRif'=> $_POST[ 'c2p_precirif_2' ],
                 'ciRif' => $_POST[ 'c2p_cirif_2' ],
                 'bank' => $_POST[ 'c2p_bank_2' ],
-                'monto' => $order->get_total(),
+                'monto' => round($order->get_total() * $tasaUSD, 2), 
                 'phone' => '58' . substr($_POST[ 'c2p_phoneNumber_2' ], 1),
                 'concept'=> $order->get_customer_note(),
                 'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
@@ -741,6 +750,11 @@ function dbi_init_gateway_isoa() {
             $order = wc_get_order( $order_id );
             $data = $order->get_data(); // order data
 
+            $tasaUSD = 1;
+
+            if($this->currency == "USD")
+                $tasaUSD = $this->obtenerTasa();
+
             //TODO: Preguntar el tipo de pago, ahorita es solo C2P
             $dtArr = array(
                 'method' => 'DEI',
@@ -749,7 +763,7 @@ function dbi_init_gateway_isoa() {
                 'preCiRif'=> $_POST[ 'dbi_precirif' ],
                 'ciRif' => $_POST[ 'dbi_cirif' ],
                 'bank' => $_POST[ 'dbi_bank' ],
-                'monto' => $order->get_total(),
+                'monto' => round($order->get_total() * $tasaUSD, 2), 
                 'phone' => $_POST[ 'dbi_account' ],
                 'concept'=> $order->get_customer_note(),
                 'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
@@ -1037,13 +1051,17 @@ function tdc_init_gateway_isoa() {
             // we need it to get any order detailes
             $order = wc_get_order( $order_id );
             $data = $order->get_data(); // order data
+            $tasaUSD = 1;
+
+            if($this->currency == "USD")
+                $tasaUSD = $this->obtenerTasa();
 
             $dtArr = array(
                 'method' => 'TDC',
                 'tipoPago' => 'TDC',
                 'preCiRif'=> $_POST[ 'tdc_precirif_2' ],
                 'ciRif' => $_POST[ 'tdc_precirif_2' ] . $_POST[ 'tdc_cirif_2' ],
-                'monto' => $order->get_total(),
+                'monto' => round($order->get_total() * $tasaUSD, 2), 
                 'numTarjeta' => $_POST[ 'tdc_cardNumber_2' ],
                 'expiryDate' => $_POST[ 'tdc_expiry_2' ],
                 'cvv' => $_POST[ 'tdc_cvv_2' ],
@@ -1094,7 +1112,7 @@ function tdc_init_gateway_isoa() {
                             $responseObject = json_decode($responseDecrypted, true);
                             if (wp_remote_retrieve_response_code( $response ) == 200) {
 
-                                if($responseObject['statusCode'] == 'P') {
+                                if($responseObject['statusCode'] == 'A') {
                                     // we received the payment
                                     $order->payment_complete();
                                     $order->reduce_order_stock();

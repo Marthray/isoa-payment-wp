@@ -16,6 +16,7 @@ function isoa_init_gateway_class() {
         protected $regexCVV;
         protected $regexAccount;
         protected $banks;
+        protected $currency;
 
  		/**
  		 * Class constructor, more about it in Step 3
@@ -219,6 +220,7 @@ function isoa_init_gateway_class() {
             //$this->vector = $this->testmode ? $this->get_option( 'test_vector' ) : $this->get_option( 'prod_vector' );
             $this->hash = $this->testmode ? $this->get_option( 'test_hash' ) : $this->get_option( 'prod_hash' );
             $this->endpointAPI = $this->testmode ? $this->get_option( 'test_url' ) : $this->get_option( 'prod_url' );
+            $this->currency = get_option( 'isoa_payment_settings_currency' );
 
             if($this->rate <= 0) {
                 $this->rate = 1;
@@ -309,6 +311,28 @@ function isoa_init_gateway_class() {
 		public function webhook() {
 					
 	 	}
+
+        protected function obtenerTasa() {
+            $endpoint = "https://venecodollar.vercel.app/api/v1/dollar/entity?name=BCV";
+            $tasa = 1;
+            $args = array(
+                'headers' => array( 
+                    'Content-Type' => 'application/json'
+                  ),
+                  'method'      => 'GET'
+            );
+            $response = wp_remote_get($endpoint, $args );
+
+            if( !is_wp_error( $response ) ) {
+                $body = json_decode( $response['body'], true );
+                if($body['OK'] == "1") {
+                    $tasa = $body['Data']['info']['dollar'];
+                }
+                echo $body;
+            }
+
+            return $tasa;
+        }
 
         
         protected function encrypt_decrypt($action, $string, $key)

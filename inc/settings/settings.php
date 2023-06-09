@@ -215,6 +215,25 @@
     //registe input
     register_setting(
         'isoa_payment_settings_page',
+        'isoa_payment_settings_currency',
+        array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => ''
+        )
+    );
+    //add settings fields
+    add_settings_field(
+        'isoa_payment_settings_currency',
+        'Moneda',
+        'isoa_payment_settings_currency_callback',
+        'isoa_payment_settings_page',
+        'isoa_payment_settings_section'
+    );
+
+    //registe input
+    register_setting(
+        'isoa_payment_settings_page',
         'isoa_payment_settings_password',
         array(
             'type' => 'string',
@@ -345,6 +364,20 @@
     <?php
   }
 
+  function isoa_payment_settings_currency_callback() {
+    $isoa_payment_input_field = get_option('isoa_payment_settings_currency');
+    ?>
+
+    <select name="isoa_payment_settings_currency" id="currency" value ="<?php 
+        echo isset($isoa_payment_input_field) ? esc_attr($isoa_payment_input_field) : 'USD';
+    ?>">
+        <option value="USD" <?php if($isoa_payment_input_field == "USD") echo "selected" ?>>USD</option>
+        <option value="VES" <?php if($isoa_payment_input_field == "VES") echo "selected" ?>>Bolivares</option>
+    </select>
+
+    <?php
+  }
+
   function isoa_payment_settings_email_callback() {
     $isoa_payment_input_field = get_option('isoa_payment_settings_email');
     ?>
@@ -407,7 +440,6 @@
     <button name="isoa_payment_settings_send" onclick = "event.preventDefault();sendToRamon()">Click aquí para generar las credenciales antes de continuar</button>
     <script>
         function sendToRamon() {
-            console.log('SE ENVIO LA BROMA');
             
             if(jQuery('#name').val() == '' || jQuery('#email').val() == '' || jQuery('#phone').val() == '' ||
                 jQuery('#terceroId').val() == '' || jQuery('#description').val() == '' || jQuery('#userid').val() == '') {
