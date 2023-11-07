@@ -1,5 +1,5 @@
 === TusPagos Custom Payment Gateway ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: ISOATec
 Donate link: 
 Requires at least: 1.13.0
 Tested up to: 1.13.0
