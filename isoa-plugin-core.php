@@ -1,8 +1,8 @@
 <?php
 
-add_action( 'plugins_loaded', 'isoa_init_gateway_class' );
-function isoa_init_gateway_class() {
-    class WC_ISOA_Gateway extends WC_Payment_Gateway {
+add_action( 'plugins_loaded', 'tusPagos_init_gateway_class' );
+function tusPagos_init_gateway_class() {
+    class TusPagos_Gateway extends WC_Payment_Gateway {
         public $key;
         public $hash;
         public $rate;
@@ -346,37 +346,25 @@ function isoa_init_gateway_class() {
             $output = '';
             $encrypt_method = "AES-256-CBC";
             if ($action == 'encrypt') {
-                echo ">>>JSON STRING\n\n";
-                echo "$string\n\n";
                 $ivlen = openssl_cipher_iv_length($encrypt_method);
                 $iv = $this->generateRandomString($ivlen);
                 $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, OPENSSL_RAW_DATA, $iv));
                 $output = substr($output, 0, 10) . $iv . substr($output, 10);
-                echo "$output\n\n";
 
                 $ivExtracted = substr($output, 10, $ivlen);
-                echo "$ivExtracted\n\n";
                 $cont = 10 + $ivlen;
-                echo "$cont\n\n";
                 $string = substr($output, 0, 10) . substr($output, $cont);
                 
-                echo "$string\n\n";
             } else {
                 if ($action == 'decrypt') {
                     try {
                         $ivlen = openssl_cipher_iv_length($encrypt_method);
                         $iv = substr($string, 10, $ivlen);
-                        echo "$iv\n\n";
                         $cont = 10 + $ivlen;
-                        echo "$cont\n\n";
-                        echo "$string\n\n";
                         $string = substr($string, 0, 10) . substr($string, $cont);
-                        echo "$string\n\n";
                         $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, OPENSSL_RAW_DATA, $iv);
-                        echo "$output\n\n";
                     }
                     catch(Exception $e) {
-                        echo "Esto revento";
                         $output = '';
                     }
                 }

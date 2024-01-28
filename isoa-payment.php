@@ -24,24 +24,24 @@ require_once __DIR__ . '/inc/settings/settings.php';
  /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'acc_add_gateway_isoa');
-function acc_add_gateway_isoa( $gateways ) {
-	$gateways[] = 'WC_ACC_Gateway_ISOA'; // your class name is here
+add_filter( 'woocommerce_payment_gateways', 'tusPagos_acc_add_gateway');
+function tusPagos_acc_add_gateway( $gateways ) {
+	$gateways[] = 'TusPagos_ACC_Gateway'; // your class name is here
 	return $gateways;
 }
 
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'acc_init_gateway_isoa' );
-function acc_init_gateway_isoa() {
+add_action( 'plugins_loaded', 'tusPagos_acc_init_gateway' );
+function tusPagos_acc_init_gateway() {
 
-	class WC_ACC_Gateway_ISOA extends WC_ISOA_Gateway {
+	class TusPagos_ACC_Gateway extends TusPagos_Gateway {
  		/**
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("accisoa", "Cuentas Venezolano de Credito (TusPagos)", "Cuentas Venezolano de Credito (TusPagos)");
+            parent::__construct("acctusPagos", "Cuentas Venezolano de Credito (TusPagos)", "Cuentas Venezolano de Credito (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -67,13 +67,13 @@ function acc_init_gateway_isoa() {
             }
         
             // I will echo() the form, but you can close PHP tags and print it directly in HTML
-            echo '<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">';
+            echo esc_html('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
         
             // Add this action hook if you want your custom payment gateway to support it
-            do_action( 'woocommerce_isoa_bvc_form_start', $this->id );
+            do_action( 'woocommerce_tusPagos_bvc_form_start', $this->id );
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
-            echo '<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
+            echo esc_html('<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
                 <input id="bvc_accNumber_2" name="bvc_accNumber_2" type="text" maxlength = "20" inputmode="decimal" autocomplete="off" class="w-100">
                 </div>
                 <div class="form-row form-row-wide">
@@ -89,11 +89,11 @@ function acc_init_gateway_isoa() {
                     <label>Cédula <span class="required">*</span></label>
                     <input id="bvc_cirif_2" name="bvc_cirif_2" type="text" autocomplete="off" placeholder="1234568" class="w-100">
                 </div>
-                <div class="clear"></div>';
+                <div class="clear"></div>');
         
-            do_action( 'woocommerce_isoa_bvc_form_end', $this->id );
+            do_action( 'woocommerce_tusPagos_bvc_form_end', $this->id );
         
-            echo '<div class="clear"></div></fieldset>';
+            echo esc_html('<div class="clear"></div></fieldset>');
 		}
 
 		/*
@@ -141,8 +141,8 @@ function acc_init_gateway_isoa() {
             wp_enqueue_style( 'formStyle' );
 
             wp_enqueue_script('sweetAlert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@11');
-	        wp_register_script( 'woocommerce_bvc_isoa', plugins_url( 'assets/bvc.js', __FILE__ ), array( 'jquery' ) );
-            wp_enqueue_script( 'woocommerce_bvc_isoa' );
+	        wp_register_script( 'woocommerce_bvc_tusPagos', plugins_url( 'assets/bvc.js', __FILE__ ), array( 'jquery' ) );
+            wp_enqueue_script( 'woocommerce_bvc_tusPagos' );
 
 	 	}
 
@@ -333,24 +333,24 @@ function acc_init_gateway_isoa() {
   /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'c2p_add_gateway_isoa' );
-function c2p_add_gateway_isoa( $gateways ) {
-	$gateways[] = 'WC_C2P_Gateway_ISOA'; // your class name is here
+add_filter( 'woocommerce_payment_gateways', 'tusPagos_c2p_add_gateway' );
+function tusPagos_c2p_add_gateway( $gateways ) {
+	$gateways[] = 'TusPagos_C2P_Gateway'; // your class name is here
 	return $gateways;
 }
 
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'c2p_init_gateway_isoa' );
-function c2p_init_gateway_isoa() {
+add_action( 'plugins_loaded', 'tusPagos_c2p_init_gateway' );
+function tusPagos_c2p_init_gateway() {
 
-	class WC_C2P_Gateway_ISOA extends WC_ISOA_Gateway {
+	class TusPagos_C2P_Gateway extends TusPagos_Gateway {
  		/**
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("c2pisoa", "Cobro Pago Movil (TusPagos)", "Cobro Pago Movil (TusPagos)");
+            parent::__construct("c2ptusPagos", "Cobro Pago Movil (TusPagos)", "Cobro Pago Movil (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -376,10 +376,10 @@ function c2p_init_gateway_isoa() {
             }
         
             // I will echo() the form, but you can close PHP tags and print it directly in HTML
-            echo '<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">';
+            echo esc_html('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
         
             // Add this action hook if you want your custom payment gateway to support it
-            do_action( 'woocommerce_isoa_c2p_form_start', $this->id );
+            do_action( 'woocommerce_tusPagos_c2p_form_start', $this->id );
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
             $optionsHTML = '';
@@ -389,7 +389,7 @@ function c2p_init_gateway_isoa() {
             }
 
 
-            echo '<div class="form-row form-row-wide"><label>Número Teléfono <span class="required">*</span></label>
+            echo esc_html('<div class="form-row form-row-wide"><label>Número Teléfono <span class="required">*</span></label>
                 <input id="c2p_phoneNumber_2" name="c2p_phoneNumber_2" type="text" autocomplete="off" class="w-100">
                 </div>
                 <div class="form-row form-row-wide">
@@ -416,11 +416,11 @@ function c2p_init_gateway_isoa() {
                     <label>Token <span class="required">*</span></label>
                     <input id="c2p_token_2" name="c2p_token_2" type="text" class="w-100" autocomplete="off" placeholder="12345678">
                 </div>
-                <div class="clear"></div>';
+                <div class="clear"></div>');
         
-            do_action( 'woocommerce_isoa_c2p_form_end', $this->id );
+            do_action( 'woocommerce_tusPagos_c2p_form_end', $this->id );
         
-            echo '<div class="clear"></div></fieldset>';
+            echo esc_html('<div class="clear"></div></fieldset>');
 		}
 
 		/*
@@ -488,8 +488,6 @@ function c2p_init_gateway_isoa() {
             $dt = json_encode($dtArr);
             $dt = $this->encrypt_decrypt('encrypt', $dt, $this->key);
 
-            echo ">>>>>>>>>>>Encriptando: " . $this->key . "\n\n";
-
             //setting array body
             $bodyIni = array(
                 'rmv' => $dt
@@ -522,7 +520,6 @@ function c2p_init_gateway_isoa() {
                     //validate response from API
                     if (is_null($body['response']['encrypted']) || $body['response']['encrypted'] != '1') {
                         $responseDecrypted = $this->encrypt_decrypt('decrypt', $body['response'], $this->key);
-                        echo "hhh\n\n".$responseDecrypted."\n\n";
                         if(!is_null($responseDecrypted) && $responseDecrypted != '') {
                             //Get the object from json string
                             $responseObject = json_decode($responseDecrypted, true);
@@ -601,7 +598,6 @@ function c2p_init_gateway_isoa() {
                 }
         
             } else {
-                echo ">>>>>>ES ERROR \n\n";
                 wc_add_notice(  'Connection error.', 'error' );
                 return;
             }
@@ -619,24 +615,24 @@ function c2p_init_gateway_isoa() {
   /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'dbi_add_gateway_isoa' );
-function dbi_add_gateway_isoa( $gateways ) {
-	$gateways[] = 'WC_DBI_Gateway_ISOA'; // your class name is here
+add_filter( 'woocommerce_payment_gateways', 'tusPagos_dbi_add_gateway' );
+function tusPagos_dbi_add_gateway( $gateways ) {
+	$gateways[] = 'TusPagos_DBI_Gateway'; // your class name is here
 	return $gateways;
 }
 
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'dbi_init_gateway_isoa' );
-function dbi_init_gateway_isoa() {
+add_action( 'plugins_loaded', 'dbi_init_gateway_tusPagos' );
+function dbi_init_gateway_tusPagos() {
 
-	class WC_DBI_Gateway_ISOA extends WC_ISOA_Gateway {
+	class TusPagos_DBI_Gateway extends TusPagos_Gateway {
  		/**
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("dbiisoa", "Cuentas Bancarias Venezolanas (TusPagos)", "Cuentas Bancarias Venezolanas (TusPagos)");
+            parent::__construct("dbitusPagos", "Cuentas Bancarias Venezolanas (TusPagos)", "Cuentas Bancarias Venezolanas (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -662,10 +658,10 @@ function dbi_init_gateway_isoa() {
             }
         
             // I will echo() the form, but you can close PHP tags and print it directly in HTML
-            echo '<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">';
+            echo esc_html('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
         
             // Add this action hook if you want your custom payment gateway to support it
-            do_action( 'woocommerce_isoa_dbi_form_start', $this->id );
+            do_action( 'woocommerce_tusPagos_dbi_form_start', $this->id );
 
             $optionsHTML = '';
 
@@ -674,7 +670,7 @@ function dbi_init_gateway_isoa() {
             }
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
-            echo '<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
+            echo esc_html('<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
                 <input id="dbi_account" class="w-100" name="dbi_account" type="text" autocomplete="off">
                 </div>
                 <div class="form-row form-row-wide">
@@ -703,12 +699,12 @@ function dbi_init_gateway_isoa() {
                     <label>Token <span class="required">*</span></label>
                     <input id="dbi_token" class="w-100" name="dbi_token" type="text" autocomplete="off" placeholder="12345678">
                 </div>
-                <div class="clear"></div>';
+                <div class="clear"></div>');
                 
         
-            do_action( 'woocommerce_isoa_dbi_form_end', $this->id );
+            do_action( 'woocommerce_tusPagos_dbi_form_end', $this->id );
         
-            echo '<div class="clear"></div></fieldset>';
+            echo esc_html('<div class="clear"></div></fieldset>');
 		}
 
 		/*
@@ -776,8 +772,6 @@ function dbi_init_gateway_isoa() {
             $dt = json_encode($dtArr);
             $dt = $this->encrypt_decrypt('encrypt', $dt, $this->key);
 
-            echo ">>>>>>>>>>>Encriptando: " . $this->key . "\n\n";
-
             //setting array body
             $bodyIni = array(
                 'rmv' => $dt
@@ -803,14 +797,12 @@ function dbi_init_gateway_isoa() {
             if( !is_wp_error( $response ) ) {
         
                 $body = json_decode( $response['body'], true );
-                echo $response['body'] . "\n\n";
                 // it could be different depending on your payment processor
                 if ( !is_null($body['response']) ) {
 
                     //validate response from API
                     if (is_null($body['response']['encrypted']) || $body['response']['encrypted'] != '1') {
                         $responseDecrypted = $this->encrypt_decrypt('decrypt', $body['response'], $this->key);
-                        echo "hhh\n\n".$responseDecrypted."\n\n";
                         if(!is_null($responseDecrypted) && $responseDecrypted != '') {
                             //Get the object from json string
                             $responseObject = json_decode($responseDecrypted, true);
@@ -906,24 +898,24 @@ function dbi_init_gateway_isoa() {
 /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'tdc_add_gateway_isoa' );
-function tdc_add_gateway_isoa( $gateways ) {
-	$gateways[] = 'WC_TDC_Gateway_ISOA'; // your class name is here
+add_filter( 'woocommerce_payment_gateways', 'tusPagos_tdc_add_gateway' );
+function tusPagos_tdc_add_gateway( $gateways ) {
+	$gateways[] = 'TusPagos_TDC_Gateway'; // your class name is here
 	return $gateways;
 }
 
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'tdc_init_gateway_isoa' );
-function tdc_init_gateway_isoa() {
+add_action( 'plugins_loaded', 'tusPagos_tdc_init_gateway' );
+function tusPagos_tdc_init_gateway() {
 
-	class WC_TDC_Gateway_ISOA extends WC_ISOA_Gateway {
+	class TusPagos_TDC_Gateway extends TusPagos_Gateway {
  		/**
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("tdcisoa", "Tarjetas de Credito (TusPagos)", "Tarjetas de Credito (TusPagos)");
+            parent::__construct("tdctusPagos", "Tarjetas de Credito (TusPagos)", "Tarjetas de Credito (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -949,13 +941,13 @@ function tdc_init_gateway_isoa() {
             }
         
             // I will echo() the form, but you can close PHP tags and print it directly in HTML
-            echo '<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">';
+            echo esc_html('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
         
             // Add this action hook if you want your custom payment gateway to support it
-            do_action( 'woocommerce_isoa_tdc_form_start', $this->id );
+            do_action( 'woocommerce_tusPagos_tdc_form_start', $this->id );
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
-            echo '<div class="form-row form-row-wide"><label>Número de Tarjeta <span class="required">*</span></label>
+            echo esc_html('<div class="form-row form-row-wide"><label>Número de Tarjeta <span class="required">*</span></label>
                 <input id="tdc_cardNumber_2" class="w-100" name="tdc_cardNumber_2" type="text" maxlength = "16" inputmode="decimal" autocomplete="off">
                 </div>
                 <div class="form-row form-row-wide">
@@ -981,11 +973,11 @@ function tdc_init_gateway_isoa() {
                     <label>CVV <span class="required">*</span></label>
                     <input id="tdc_cvv_2" class="w-100" name="tdc_cvv_2" type="password" maxlength="3" autocomplete="off" placeholder="123">
                 </div>
-                <div class="clear"></div>';
+                <div class="clear"></div>');
         
-            do_action( 'woocommerce_isoa_tdc_form_end', $this->id );
+            do_action( 'woocommerce_tusPagos_tdc_form_end', $this->id );
         
-            echo '<div class="clear"></div></fieldset>';
+            echo esc_html('<div class="clear"></div></fieldset>');
 		}
 
 		/*
@@ -1106,7 +1098,6 @@ function tdc_init_gateway_isoa() {
                     //validate response from API
                     if (is_null($body['response']['encrypted']) || $body['response']['encrypted'] != '1') {
                         $responseDecrypted = $this->encrypt_decrypt('decrypt', $body['response'], $this->key);
-                        echo "hhh\n\n".$responseDecrypted."\n\n";
                         if(!is_null($responseDecrypted) && $responseDecrypted != '') {
                             //Get the object from json string
                             $responseObject = json_decode($responseDecrypted, true);
