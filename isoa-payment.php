@@ -6,7 +6,6 @@
  * Author: TusPagos
  * Author URI: http://isoatec.com
  * Version: 1.13.0
- * Update URI: http://isoatec.com/tuspagos/pluginsupdate
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
