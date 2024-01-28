@@ -1,12 +1,13 @@
 === TusPagos Custom Payment Gateway ===
 Contributors: ISOATec
 Donate link: 
-Requires at least: 1.13.0
-Tested up to: 1.13.0
+Requires at least: 6.0
+Tested up to: 6.3
 Tags: paymentGateway, payment, credit card, pago movil, pasarela, pago, pasarela de pago, tarjeta de credito, venezuela, venezolano de credito
-Requires PHP: 7.0 or later
+Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Stable Tag: 1.13.0
 
 This woocommerce plugin allows the user to get payments through an API done with TusPagos.
 
