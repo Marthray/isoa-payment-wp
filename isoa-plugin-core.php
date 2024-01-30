@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 add_action( 'plugins_loaded', 'tusPagos_init_gateway_class' );
 function tusPagos_init_gateway_class() {
     class TusPagos_Gateway extends WC_Payment_Gateway {
@@ -238,7 +238,7 @@ function tusPagos_init_gateway_class() {
             wp_register_script( 'woocommerce_bank_isoa', plugins_url( 'assets/banks.js?v=2.1', __FILE__ ), array( 'jquery' ) );
             wp_enqueue_script( 'woocommerce_bank_isoa' );
 
-            wp_enqueue_script('sweetAlert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@11');
+            wp_enqueue_script('sweetAlert2', plugins_url('assets/sweetalert2.js', __FILE__ ));
 	        wp_register_script( 'woocommerce_bvc_isoa', plugins_url( 'assets/bvc.js?v=1.1', __FILE__ ), array( 'jquery' ) );
             wp_enqueue_script( 'woocommerce_bvc_isoa' );
             

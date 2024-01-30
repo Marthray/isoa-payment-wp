@@ -139,7 +139,7 @@ function tusPagos_acc_init_gateway() {
             wp_register_style( 'formStyle', plugins_url( 'assets/styles.css', __FILE__ ) );
             wp_enqueue_style( 'formStyle' );
 
-            wp_enqueue_script('sweetAlert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@11');
+            wp_enqueue_script('sweetAlert2', plugins_url('assets/sweetalert2.js', __FILE__ ));
 	        wp_register_script( 'woocommerce_bvc_tusPagos', plugins_url( 'assets/bvc.js', __FILE__ ), array( 'jquery' ) );
             wp_enqueue_script( 'woocommerce_bvc_tusPagos' );
 
@@ -512,7 +512,6 @@ function tusPagos_c2p_init_gateway() {
             if( !is_wp_error( $response ) ) {
         
                 $body = json_decode( $response['body'], true );
-                echo $response['body'] . "\n\n";
                 // it could be different depending on your payment processor
                 if ( !is_null($body['response']) ) {
 
