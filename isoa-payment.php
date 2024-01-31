@@ -99,15 +99,15 @@ function tusPagos_acc_init_gateway() {
  		 * Fields validation, more in Step 5
 		 */
 		public function validate_fields() {
-            if( empty( esc_html($_POST[ 'bvc_accNumber_2' ])) || !preg_match($this->regexAccount, esc_html($_POST[ 'bvc_accNumber_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'bvc_accNumber_2' ])) || !preg_match($this->regexAccount, sanitize_text_field($_POST[ 'bvc_accNumber_2' ])) ) {
                 wc_add_notice(  'Numero de cuenta inválida!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'bvc_cirif_2' ])) || !preg_match($this->regexCiRif, esc_html($_POST[ 'bvc_cirif_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'bvc_cirif_2' ])) || !preg_match($this->regexCiRif, sanitize_text_field($_POST[ 'bvc_cirif_2' ])) ) {
                 wc_add_notice(  'Identificacion inválida! ', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'bvc_precirif_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'bvc_precirif_2' ])) ) {
                 wc_add_notice(  'Nacionalidad inválida!', 'error' );
                 return false;
             }
@@ -157,7 +157,7 @@ function tusPagos_acc_init_gateway() {
 
             //TODO: Preguntar el tipo de pago, ahorita es solo TDC
             $dtArray = null;
-            if (esc_html($_POST['getTokenStep2'] == "1")) {
+            if (sanitize_text_field($_POST['getTokenStep2'] == "1")) {
                 $tasaUSD = 1;
 
                 if($this->currency == "USD")
@@ -166,10 +166,10 @@ function tusPagos_acc_init_gateway() {
                 $dtArr = array(
                     'method' => 'TRN',
                     'tipoPago' => 'BVC',
-                    'preCiRif'=> esc_html($_POST[ 'bvc_precirif_2' ]),
-                    'ciRif' => esc_html($_POST[ 'bvc_cirif_2' ]),
+                    'preCiRif'=> sanitize_text_field($_POST[ 'bvc_precirif_2' ]),
+                    'ciRif' => sanitize_text_field($_POST[ 'bvc_cirif_2' ]),
                     'monto' => round($order->get_total() * $tasaUSD, 2), 
-                    'account' => esc_html($_POST[ 'bvc_accNumber_2' ]),
+                    'account' => sanitize_text_field($_POST[ 'bvc_accNumber_2' ]),
                     'concept'=> $order->get_customer_note(),
                     'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
                     'postalCode' => '',
@@ -181,8 +181,8 @@ function tusPagos_acc_init_gateway() {
                 $dtArr = array(
                     'method' => 'TRN',
                     'tipoPago'=> 'BVC-2',
-                    'idPago'=> esc_html($_POST[ 'idPago' ]),
-                    'token' => esc_html($_POST[ 'token' ])
+                    'idPago'=> sanitize_text_field($_POST[ 'idPago' ]),
+                    'token' => sanitize_text_field($_POST[ 'token' ])
                 );
             }
 
@@ -227,7 +227,7 @@ function tusPagos_acc_init_gateway() {
                             //Get the object from json string
                             $responseObject = json_decode($responseDecrypted, true);
                             if (wp_remote_retrieve_response_code( $response ) == 200) {
-                                if (esc_html($_POST[ 'getTokenStep2' ]) == "1") {
+                                if (sanitize_text_field($_POST[ 'getTokenStep2' ]) == "1") {
                                     wc_add_notice(  "BVC2_" . $responseObject['idPago'] , 'error');
                                     return;
                                 } else {
@@ -428,23 +428,23 @@ function tusPagos_c2p_init_gateway() {
 		public function validate_fields() {
             
 
-            if( empty( esc_html($_POST[ 'c2p_phoneNumber_2' ])) || !preg_match($this->regexPhone, esc_html($_POST[ 'c2p_phoneNumber_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'c2p_phoneNumber_2' ])) || !preg_match($this->regexPhone, sanitize_text_field($_POST[ 'c2p_phoneNumber_2' ])) ) {
                 wc_add_notice(  'Numero de telefono inválido!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'c2p_cirif_2' ])) || !preg_match($this->regexCiRif, esc_html($_POST[ 'c2p_cirif_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'c2p_cirif_2' ])) || !preg_match($this->regexCiRif, sanitize_text_field($_POST[ 'c2p_cirif_2' ])) ) {
                 wc_add_notice(  'Identificacion inválida! ', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'c2p_precirif_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'c2p_precirif_2' ])) ) {
                 wc_add_notice(  'Nacionalidad inválida!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'c2p_bank_2' ])) || !preg_match($this->regexBank, esc_html($_POST[ 'c2p_bank_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'c2p_bank_2' ])) || !preg_match($this->regexBank, sanitize_text_field($_POST[ 'c2p_bank_2' ])) ) {
                 wc_add_notice(  'Codigo de banco inválido!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'c2p_token_2' ])) || !preg_match($this->regexTokenC2P, esc_html($_POST[ 'c2p_token_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'c2p_token_2' ])) || !preg_match($this->regexTokenC2P, sanitize_text_field($_POST[ 'c2p_token_2' ])) ) {
                 wc_add_notice(  'Codigo de banco inválido!', 'error' );
                 return false;
             }
@@ -469,12 +469,12 @@ function tusPagos_c2p_init_gateway() {
             $dtArr = array(
                 'method' => 'PGM',
                 'tipoPago' => 'C2P',
-                'otp' => esc_html($_POST[ 'c2p_token_2' ]),
-                'preCiRif'=> esc_html($_POST[ 'c2p_precirif_2' ]),
-                'ciRif' => esc_html($_POST[ 'c2p_cirif_2' ]),
-                'bank' => esc_html($_POST[ 'c2p_bank_2' ]),
+                'otp' => sanitize_text_field($_POST[ 'c2p_token_2' ]),
+                'preCiRif'=> sanitize_text_field($_POST[ 'c2p_precirif_2' ]),
+                'ciRif' => sanitize_text_field($_POST[ 'c2p_cirif_2' ]),
+                'bank' => sanitize_text_field($_POST[ 'c2p_bank_2' ]),
                 'monto' => round($order->get_total() * $tasaUSD, 2), 
-                'phone' => '58' . substr(esc_html($_POST[ 'c2p_phoneNumber_2' ]), 1),
+                'phone' => '58' . substr(sanitize_text_field($_POST[ 'c2p_phoneNumber_2' ]), 1),
                 'concept'=> $order->get_customer_note(),
                 'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
                 'postalCode' => '',
@@ -711,23 +711,23 @@ function dbi_init_gateway_tusPagos() {
 		public function validate_fields() {
             
 
-            if( empty( esc_html($_POST[ 'dbi_account' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'dbi_account' ])) ) {
                 wc_add_notice(  'Numero de cuenta inválido!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'dbi_cirif' ])) || !preg_match($this->regexCiRif, esc_html($_POST[ 'dbi_cirif' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'dbi_cirif' ])) || !preg_match($this->regexCiRif, sanitize_text_field($_POST[ 'dbi_cirif' ])) ) {
                 wc_add_notice(  'Identificacion inválida! ', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'dbi_precirif' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'dbi_precirif' ])) ) {
                 wc_add_notice(  'Nacionalidad inválida!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'dbi_bank' ])) || !preg_match($this->regexBank, esc_html($_POST[ 'dbi_bank' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'dbi_bank' ])) || !preg_match($this->regexBank, sanitize_text_field($_POST[ 'dbi_bank' ])) ) {
                 wc_add_notice(  'Codigo de banco inválido!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'dbi_token' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'dbi_token' ])) ) {
                 wc_add_notice(  'Token inválido!', 'error' );
                 return false;
             }
@@ -753,12 +753,12 @@ function dbi_init_gateway_tusPagos() {
             $dtArr = array(
                 'method' => 'DEI',
                 'tipoPago' => 'DEI',
-                'otp' => esc_html($_POST[ 'dbi_token' ]),
-                'preCiRif'=> esc_html($_POST[ 'dbi_precirif' ]),
-                'ciRif' => esc_html($_POST[ 'dbi_cirif' ]),
-                'bank' => esc_html($_POST[ 'dbi_bank' ]),
+                'otp' => sanitize_text_field($_POST[ 'dbi_token' ]),
+                'preCiRif'=> sanitize_text_field($_POST[ 'dbi_precirif' ]),
+                'ciRif' => sanitize_text_field($_POST[ 'dbi_cirif' ]),
+                'bank' => sanitize_text_field($_POST[ 'dbi_bank' ]),
                 'monto' => round($order->get_total() * $tasaUSD, 2), 
-                'phone' => esc_html($_POST[ 'dbi_account' ]),
+                'phone' => sanitize_text_field($_POST[ 'dbi_account' ]),
                 'concept'=> $order->get_customer_note(),
                 'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
                 'postalCode' => '',
@@ -982,23 +982,23 @@ function tusPagos_tdc_init_gateway() {
  		 * Fields validation, more in Step 5
 		 */
 		public function validate_fields() {
-            if( empty( esc_html($_POST[ 'tdc_cardNumber_2' ])) || !preg_match($this->regexTDC, esc_html($_POST[ 'tdc_cardNumber_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'tdc_cardNumber_2' ])) || !preg_match($this->regexTDC, sanitize_text_field($_POST[ 'tdc_cardNumber_2' ])) ) {
                 wc_add_notice(  'Numero de telefono inválido!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'tdc_cirif_2' ])) || !preg_match($this->regexCiRif, esc_html($_POST[ 'tdc_cirif_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'tdc_cirif_2' ])) || !preg_match($this->regexCiRif, sanitize_text_field($_POST[ 'tdc_cirif_2' ])) ) {
                 wc_add_notice(  'Identificacion inválida! ', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'tdc_precirif_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'tdc_precirif_2' ])) ) {
                 wc_add_notice(  'Nacionalidad inválida!', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'tdc_expiry_2' ])) || !preg_match($this->regexExpiryDate, esc_html($_POST[ 'tdc_expiry_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'tdc_expiry_2' ])) || !preg_match($this->regexExpiryDate, sanitize_text_field($_POST[ 'tdc_expiry_2' ])) ) {
                 wc_add_notice(  'Fecha de expiracion inválida', 'error' );
                 return false;
             }
-            if( empty( esc_html($_POST[ 'tdc_cvv_2' ])) || !preg_match($this->regexCVV, esc_html($_POST[ 'tdc_cvv_2' ])) ) {
+            if( empty( sanitize_text_field($_POST[ 'tdc_cvv_2' ])) || !preg_match($this->regexCVV, sanitize_text_field($_POST[ 'tdc_cvv_2' ])) ) {
                 wc_add_notice(  'Codigo de verificación inválido!', 'error' );
                 return false;
             }
@@ -1049,12 +1049,12 @@ function tusPagos_tdc_init_gateway() {
             $dtArr = array(
                 'method' => 'TDC',
                 'tipoPago' => 'TDC',
-                'preCiRif'=> esc_html($_POST[ 'tdc_precirif_2' ]),
-                'ciRif' => esc_html($_POST[ 'tdc_precirif_2' ]) . esc_html($_POST[ 'tdc_cirif_2' ]),
+                'preCiRif'=> sanitize_text_field($_POST[ 'tdc_precirif_2' ]),
+                'ciRif' => sanitize_text_field($_POST[ 'tdc_precirif_2' ]) . sanitize_text_field($_POST[ 'tdc_cirif_2' ]),
                 'monto' => round($order->get_total() * $tasaUSD, 2), 
-                'numTarjeta' => esc_html($_POST[ 'tdc_cardNumber_2' ]),
-                'expiryDate' => esc_html($_POST[ 'tdc_expiry_2' ]),
-                'cvv' => esc_html($_POST[ 'tdc_cvv_2' ]),
+                'numTarjeta' => sanitize_text_field($_POST[ 'tdc_cardNumber_2' ]),
+                'expiryDate' => sanitize_text_field($_POST[ 'tdc_expiry_2' ]),
+                'cvv' => sanitize_text_field($_POST[ 'tdc_cvv_2' ]),
                 'concept'=> $order->get_customer_note(),
                 'clientName' => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(), //TOMAR DE DE SESION
                 'postalCode' => '',
