@@ -40,7 +40,7 @@ function tusPagos_acc_init_gateway() {
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("acctusPagos", "Cuentas Venezolano de Credito (TusPagos)", "Cuentas Venezolano de Credito (TusPagos)");
+            parent::__construct("acctuspagos", "Cuentas Venezolano de Credito (TusPagos)", "Cuentas Venezolano de Credito (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
