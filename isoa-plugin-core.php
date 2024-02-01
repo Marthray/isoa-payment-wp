@@ -1,5 +1,4 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 add_action( 'plugins_loaded', 'tusPagos_init_gateway_class' );
 function tusPagos_init_gateway_class() {
     class TusPagos_Gateway extends WC_Payment_Gateway {
@@ -208,7 +207,7 @@ function tusPagos_init_gateway_class() {
             );
 
             // Method with all the options fields
-            $this->init_form_fields($title, $description);
+            $this->init_form_fields();
 
             $this->init_settings();
             $this->title = $this->get_option( 'title' );
@@ -249,7 +248,7 @@ function tusPagos_init_gateway_class() {
 		/**
  		 * Plugin options, we deal with it in Step 3 too
  		 */
- 		public function init_form_fields($title, $description){
+ 		public function init_form_fields(){
             $this->form_fields = array(
                 'enabled' => array(
                     'title'       => 'Activar / Desactivar',
@@ -262,14 +261,14 @@ function tusPagos_init_gateway_class() {
                     'title'       => 'Título',
                     'type'        => 'text',
                     'description' => 'Boton de Pago',
-                    'default'     => $description,
+                    'default'     => $this->method_title,
                     'desc_tip'    => true,
                 ),
                 'description' => array(
                     'title'       => 'Descripción',
                     'type'        => 'textarea',
                     'description' => 'Descripcion del plugin',
-                    'default'     => $description,
+                    'default'     => $this->method_description,
                 ),
                 'rate' => array(
                     'title'       => 'Tasa de USD',
