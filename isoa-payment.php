@@ -23,8 +23,8 @@ require_once __DIR__ . '/inc/settings/settings.php';
  /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'tusPagos_acc_add_gateway');
-function tusPagos_acc_add_gateway( $gateways ) {
+add_filter( 'woocommerce_payment_gateways', 'tuspagos_acc_add_gateway');
+function tuspagos_acc_add_gateway( $gateways ) {
 	$gateways[] = 'TusPagos_ACC_Gateway'; // your class name is here
 	return $gateways;
 }
@@ -32,8 +32,8 @@ function tusPagos_acc_add_gateway( $gateways ) {
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'tusPagos_acc_init_gateway' );
-function tusPagos_acc_init_gateway() {
+add_action( 'plugins_loaded', 'tuspagos_acc_init_gateway' );
+function tuspagos_acc_init_gateway() {
 
 	class TusPagos_ACC_Gateway extends TusPagos_Gateway {
  		/**
@@ -66,13 +66,13 @@ function tusPagos_acc_init_gateway() {
             }
         
             // I will echo() the form, but you can close PHP tags and print it directly in HTML
-            echo esc_html('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
+            echo ('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
         
             // Add this action hook if you want your custom payment gateway to support it
-            do_action( 'woocommerce_tusPagos_bvc_form_start', $this->id );
+            do_action( 'woocommerce_tuspagos_bvc_form_start', $this->id );
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
-            echo esc_html('<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
+            echo ('<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
                 <input id="bvc_accNumber_2" name="bvc_accNumber_2" type="text" maxlength = "20" inputmode="decimal" autocomplete="off" class="w-100">
                 </div>
                 <div class="form-row form-row-wide">
@@ -90,9 +90,9 @@ function tusPagos_acc_init_gateway() {
                 </div>
                 <div class="clear"></div>');
         
-            do_action( 'woocommerce_tusPagos_bvc_form_end', $this->id );
+            do_action( 'woocommerce_tuspagos_bvc_form_end', $this->id );
         
-            echo esc_html('<div class="clear"></div></fieldset>');
+            echo ('<div class="clear"></div></fieldset>');
 		}
 
 		/*
@@ -140,8 +140,8 @@ function tusPagos_acc_init_gateway() {
             wp_enqueue_style( 'formStyle' );
 
             wp_enqueue_script('sweetAlert2', plugins_url('assets/sweetalert2.js', __FILE__ ));
-	        wp_register_script( 'woocommerce_bvc_tusPagos', plugins_url( 'assets/bvc.js', __FILE__ ), array( 'jquery' ) );
-            wp_enqueue_script( 'woocommerce_bvc_tusPagos' );
+	        wp_register_script( 'woocommerce_bvc_tuspagos', plugins_url( 'assets/bvc.js', __FILE__ ), array( 'jquery' ) );
+            wp_enqueue_script( 'woocommerce_bvc_tuspagos' );
 
 	 	}
 
@@ -332,8 +332,8 @@ function tusPagos_acc_init_gateway() {
   /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'tusPagos_c2p_add_gateway' );
-function tusPagos_c2p_add_gateway( $gateways ) {
+add_filter( 'woocommerce_payment_gateways', 'tuspagos_c2p_add_gateway' );
+function tuspagos_c2p_add_gateway( $gateways ) {
 	$gateways[] = 'TusPagos_C2P_Gateway'; // your class name is here
 	return $gateways;
 }
@@ -341,15 +341,15 @@ function tusPagos_c2p_add_gateway( $gateways ) {
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'tusPagos_c2p_init_gateway' );
-function tusPagos_c2p_init_gateway() {
+add_action( 'plugins_loaded', 'tuspagos_c2p_init_gateway' );
+function tuspagos_c2p_init_gateway() {
 
 	class TusPagos_C2P_Gateway extends TusPagos_Gateway {
  		/**
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("c2ptusPagos", "Cobro Pago Movil (TusPagos)", "Cobro Pago Movil (TusPagos)");
+            parent::__construct("c2ptuspagos", "Cobro Pago Movil (TusPagos)", "Cobro Pago Movil (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -375,20 +375,20 @@ function tusPagos_c2p_init_gateway() {
             }
         
             // I will echo() the form, but you can close PHP tags and print it directly in HTML
-            echo esc_html('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
+            echo ('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
         
             // Add this action hook if you want your custom payment gateway to support it
-            do_action( 'woocommerce_tusPagos_c2p_form_start', $this->id );
+            do_action( 'woocommerce_tuspagos_c2p_form_start', $this->id );
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
             $optionsHTML = '';
 
             foreach ($this->banks as $b) {
-                $optionsHTML .= '<option value="'.$b['codigo'].'">'.$b['nombre'].'</option>';
+                $optionsHTML .= '<option value="'.esc_html($b['codigo']).'">'.esc_html($b['nombre']).'</option>';
             }
 
 
-            echo esc_html('<div class="form-row form-row-wide"><label>Número Teléfono <span class="required">*</span></label>
+            echo ('<div class="form-row form-row-wide"><label>Número Teléfono <span class="required">*</span></label>
                 <input id="c2p_phoneNumber_2" name="c2p_phoneNumber_2" type="text" autocomplete="off" class="w-100">
                 </div>
                 <div class="form-row form-row-wide">
@@ -417,9 +417,9 @@ function tusPagos_c2p_init_gateway() {
                 </div>
                 <div class="clear"></div>');
         
-            do_action( 'woocommerce_tusPagos_c2p_form_end', $this->id );
+            do_action( 'woocommerce_tuspagos_c2p_form_end', $this->id );
         
-            echo esc_html('<div class="clear"></div></fieldset>');
+            echo ('<div class="clear"></div></fieldset>');
 		}
 
 		/*
@@ -613,8 +613,8 @@ function tusPagos_c2p_init_gateway() {
   /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'tusPagos_dbi_add_gateway' );
-function tusPagos_dbi_add_gateway( $gateways ) {
+add_filter( 'woocommerce_payment_gateways', 'tuspagos_dbi_add_gateway' );
+function tuspagos_dbi_add_gateway( $gateways ) {
 	$gateways[] = 'TusPagos_DBI_Gateway'; // your class name is here
 	return $gateways;
 }
@@ -622,15 +622,15 @@ function tusPagos_dbi_add_gateway( $gateways ) {
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'dbi_init_gateway_tusPagos' );
-function dbi_init_gateway_tusPagos() {
+add_action( 'plugins_loaded', 'dbi_init_gateway_tuspagos' );
+function dbi_init_gateway_tuspagos() {
 
 	class TusPagos_DBI_Gateway extends TusPagos_Gateway {
  		/**
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("dbitusPagos", "Cuentas Bancarias Venezolanas (TusPagos)", "Cuentas Bancarias Venezolanas (TusPagos)");
+            parent::__construct("dbituspagos", "Cuentas Bancarias Venezolanas (TusPagos)", "Cuentas Bancarias Venezolanas (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -656,19 +656,19 @@ function dbi_init_gateway_tusPagos() {
             }
         
             // I will echo() the form, but you can close PHP tags and print it directly in HTML
-            echo esc_html('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
+            echo ('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
         
             // Add this action hook if you want your custom payment gateway to support it
-            do_action( 'woocommerce_tusPagos_dbi_form_start', $this->id );
+            do_action( 'woocommerce_tuspagos_dbi_form_start', $this->id );
 
             $optionsHTML = '';
 
             foreach ($this->banks as $b) {
-                $optionsHTML .= '<option value="'.$b['codigo'].'">'.$b['nombre'].'</option>';
+                $optionsHTML .= '<option value="'.esc_html($b['codigo']).'">'.esc_html($b['nombre']).'</option>';
             }
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
-            echo esc_html('<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
+            echo ('<div class="form-row form-row-wide"><label>Número de Cuenta <span class="required">*</span></label>
                 <input id="dbi_account" class="w-100" name="dbi_account" type="text" autocomplete="off">
                 </div>
                 <div class="form-row form-row-wide">
@@ -700,9 +700,9 @@ function dbi_init_gateway_tusPagos() {
                 <div class="clear"></div>');
                 
         
-            do_action( 'woocommerce_tusPagos_dbi_form_end', $this->id );
+            do_action( 'woocommerce_tuspagos_dbi_form_end', $this->id );
         
-            echo esc_html('<div class="clear"></div></fieldset>');
+            echo ('<div class="clear"></div></fieldset>');
 		}
 
 		/*
@@ -896,8 +896,8 @@ function dbi_init_gateway_tusPagos() {
 /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
  */
-add_filter( 'woocommerce_payment_gateways', 'tusPagos_tdc_add_gateway' );
-function tusPagos_tdc_add_gateway( $gateways ) {
+add_filter( 'woocommerce_payment_gateways', 'tuspagos_tdc_add_gateway' );
+function tuspagos_tdc_add_gateway( $gateways ) {
 	$gateways[] = 'TusPagos_TDC_Gateway'; // your class name is here
 	return $gateways;
 }
@@ -905,15 +905,15 @@ function tusPagos_tdc_add_gateway( $gateways ) {
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
  */
-add_action( 'plugins_loaded', 'tusPagos_tdc_init_gateway' );
-function tusPagos_tdc_init_gateway() {
+add_action( 'plugins_loaded', 'tuspagos_tdc_init_gateway' );
+function tuspagos_tdc_init_gateway() {
 
 	class TusPagos_TDC_Gateway extends TusPagos_Gateway {
  		/**
  		 * Class constructor, more about it in Step 3
  		 */
  		public function __construct() {
-            parent::__construct("tdctusPagos", "Tarjetas de Credito (TusPagos)", "Tarjetas de Credito (TusPagos)");
+            parent::__construct("tdctuspagos", "Tarjetas de Credito (TusPagos)", "Tarjetas de Credito (TusPagos)");
             if($this->rate <= 0) {
                 $this->rate = 1;
             }
@@ -939,13 +939,13 @@ function tusPagos_tdc_init_gateway() {
             }
         
             // I will echo() the form, but you can close PHP tags and print it directly in HTML
-            echo esc_html('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
+            echo ('<fieldset id="wc-' . esc_attr( $this->id ) . '-form" class="wc-payment-form" style="background:transparent;">');
         
             // Add this action hook if you want your custom payment gateway to support it
-            do_action( 'woocommerce_tusPagos_tdc_form_start', $this->id );
+            do_action( 'woocommerce_tuspagos_tdc_form_start', $this->id );
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
-            echo esc_html('<div class="form-row form-row-wide"><label>Número de Tarjeta <span class="required">*</span></label>
+            echo ('<div class="form-row form-row-wide"><label>Número de Tarjeta <span class="required">*</span></label>
                 <input id="tdc_cardNumber_2" class="w-100" name="tdc_cardNumber_2" type="text" maxlength = "16" inputmode="decimal" autocomplete="off">
                 </div>
                 <div class="form-row form-row-wide">
@@ -973,9 +973,9 @@ function tusPagos_tdc_init_gateway() {
                 </div>
                 <div class="clear"></div>');
         
-            do_action( 'woocommerce_tusPagos_tdc_form_end', $this->id );
+            do_action( 'woocommerce_tuspagos_tdc_form_end', $this->id );
         
-            echo esc_html('<div class="clear"></div></fieldset>');
+            echo ('<div class="clear"></div></fieldset>');
 		}
 
 		/*

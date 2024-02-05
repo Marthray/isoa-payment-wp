@@ -14,8 +14,12 @@ function tusPagos_init_gateway_class() {
         protected $regexTDC;
         protected $regexCVV;
         protected $regexAccount;
+        protected $regexAccount2;
         protected $banks;
         protected $currency;
+        protected $testmode;
+        protected $testUrl;
+        protected $prodUrl;
 
  		/**
  		 * Class constructor, more about it in Step 3
